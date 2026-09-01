@@ -72,7 +72,7 @@ export default function Register() {
             };
 
             const response = await fetch(
-                "http://localhost:3000/usuarios",
+                "/usuarios",
                 {
                     method: "POST",
 

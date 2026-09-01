@@ -22,7 +22,7 @@ export default function Login() {
         try {
 
             const response = await fetch(
-                `http://localhost:3000/usuarios?email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`
+                `/usuarios?email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`
             );
 
             if (!response.ok) {
