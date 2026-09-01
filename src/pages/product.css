@@ -1,0 +1,763 @@
+/* =========================
+   PÁGINA
+========================= */
+
+.product-page {
+    min-height: 100vh;
+
+    background: #fff;
+    color: #222;
+}
+
+/* =========================
+   PROMOÇÃO
+========================= */
+
+.product-promotion {
+    min-height: 34px;
+
+    padding: 7px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    background: linear-gradient(
+        90deg,
+        #d65b9d,
+        #ed91c4
+    );
+
+    color: #111;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.product-header {
+    min-height: 82px;
+
+    display: grid;
+
+    grid-template-columns: 1fr auto 1fr;
+
+    align-items: center;
+
+    padding: 0 60px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.product-header-left {
+    display: flex;
+    gap: 30px;
+}
+
+.product-header-left a {
+    color: #777;
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.product-header-left a:hover {
+    color: #df4da0;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.product-logo {
+    border: none;
+    background: transparent;
+
+    font-family: 'Poppins';
+
+    font-size: 23px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.product-logo:hover {
+    color: #e34792;
+}
+
+/* =========================
+   DIREITA
+========================= */
+
+.product-header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.product-header-right > a,
+.product-bag-button,
+.product-favorite-header {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+.product-header-right svg {
+    font-size: 18px;
+}
+
+/* =========================
+   BUSCA
+========================= */
+
+.product-search {
+    width: 180px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 13px;
+
+    background: #eee;
+
+    border-radius: 22px;
+
+    transition: 0.2s;
+}
+
+.product-search:focus-within {
+    background: #f8f8f8;
+
+    box-shadow:
+        0 0 0 1px #e34792;
+}
+
+.product-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 13px;
+}
+
+.product-bag-button,
+.product-favorite-header {
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+}
+
+.product-favorite-header:hover,
+.product-bag-button:hover {
+    color: #e34792;
+}
+
+/* =========================
+   CONTEÚDO
+========================= */
+
+.product-content {
+    width: 100%;
+    max-width: 1350px;
+
+    margin: auto;
+
+    padding: 35px 50px 80px;
+}
+
+.product-breadcrumb {
+    margin-bottom: 35px;
+
+    color: #333;
+
+    font-size: 13px;
+}
+
+/* =========================
+   PRINCIPAL
+========================= */
+
+.product-main {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1.1fr) minmax(380px, .9fr);
+
+    gap: 70px;
+
+    align-items: start;
+}
+
+/* =========================
+   GALERIA
+========================= */
+
+.product-gallery {
+    display: grid;
+
+    grid-template-columns: 75px 1fr;
+
+    gap: 20px;
+}
+
+.product-thumbnails {
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.thumbnail {
+    width: 65px;
+    height: 70px;
+
+    padding: 0;
+
+    border: none;
+
+    background: #f6f6f6;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+.thumbnail.active {
+    outline: 2px solid #df4da0;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    mix-blend-mode: multiply;
+}
+
+/* =========================
+   IMAGEM PRINCIPAL
+========================= */
+
+.product-main-image {
+    width: 100%;
+    height: 500px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f7f7f7;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.product-main-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    mix-blend-mode: multiply;
+
+    transition: 0.3s;
+}
+
+.product-main-image:hover img {
+    transform: scale(1.02);
+}
+
+/* =========================
+   DETALHES
+========================= */
+
+.product-details {
+    padding-top: 5px;
+}
+
+.product-details h1 {
+    margin: 0;
+
+    color: #222;
+
+    font-size: 32px;
+    font-weight: 500;
+
+    line-height: 1.2;
+}
+
+.product-age {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #555;
+
+    font-size: 13px;
+}
+
+.product-rating {
+    margin-top: 14px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+}
+
+.product-rating span {
+    color: #eec400;
+    font-size: 15px;
+}
+
+.product-rating small {
+    color: #555;
+    font-size: 12px;
+}
+
+/* =========================
+   PREÇO
+========================= */
+
+.product-price {
+    margin-top: 13px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.product-price strong {
+    color: #333;
+
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.product-price del {
+    color: #999;
+    font-size: 14px;
+}
+
+.product-price b {
+    padding: 4px 8px;
+
+    border-radius: 6px;
+
+    background: #62dadd;
+
+    color: white;
+
+    font-size: 11px;
+}
+
+.installments {
+    margin-top: 6px;
+
+    color: #333;
+
+    font-size: 13px;
+}
+
+/* =========================
+   DESCRIÇÃO
+========================= */
+
+.product-description {
+    margin-top: 25px;
+
+    max-width: 500px;
+
+    color: #333;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.product-description strong {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 16px;
+}
+
+.product-description p {
+    margin: 0;
+}
+
+.product-description button {
+    margin-top: 8px;
+
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #222;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+/* =========================
+   BOTÕES
+========================= */
+
+.product-add-button,
+.product-favorite-button {
+    width: 100%;
+    max-width: 450px;
+
+    height: 50px;
+
+    margin-top: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 25px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.product-add-button {
+    background: #df4da0;
+    color: white;
+}
+
+.product-add-button:hover {
+    background: #c92f83;
+    transform: translateY(-1px);
+}
+
+.product-favorite-button {
+    margin-top: 14px;
+
+    gap: 7px;
+
+    background: #fff0f7;
+
+    color: #df4da0;
+
+    border: 1px solid #df4da0;
+}
+
+.product-favorite-button:hover {
+    background: #df4da0;
+    color: white;
+}
+
+.product-favorite-button svg {
+    font-size: 18px;
+}
+
+/* =========================
+   FRETE
+========================= */
+
+.shipping-calculator {
+    max-width: 450px;
+
+    margin-top: 45px;
+}
+
+.shipping-title {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.shipping-title button {
+    border: none;
+    background: transparent;
+
+    color: #65cdd0;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.shipping-input {
+    height: 45px;
+
+    display: flex;
+
+    border: 1px solid #ccc;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+.shipping-input input {
+    flex: 1;
+
+    padding: 0 12px;
+
+    border: none;
+    outline: none;
+
+    font-size: 12px;
+}
+
+.shipping-input button {
+    width: 80px;
+
+    margin: 4px;
+
+    border: none;
+
+    border-radius: 20px;
+
+    background: #65d6d9;
+
+    color: #111;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1100px) {
+
+    .product-header {
+        padding: 0 35px;
+    }
+
+    .product-content {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    .product-main {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .product-gallery {
+        max-width: 750px;
+    }
+
+    .product-details {
+        max-width: 700px;
+    }
+}
+
+/* =========================
+   TABLET PEQUENO
+========================= */
+
+@media (max-width: 850px) {
+
+    .product-header {
+        grid-template-columns: 1fr auto;
+    }
+
+    .product-header-left {
+        display: none;
+    }
+
+    .product-logo {
+        justify-self: start;
+    }
+
+    .product-search {
+        width: 150px;
+    }
+}
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    .product-promotion {
+        min-height: 32px;
+
+        padding: 6px 12px;
+
+        font-size: 10px;
+    }
+
+    .product-header {
+        min-height: 68px;
+
+        padding: 0 15px;
+
+        gap: 10px;
+    }
+
+    .product-logo {
+        font-size: 19px;
+    }
+
+    .product-header-right {
+        gap: 10px;
+    }
+
+    .product-header-right span {
+        display: none;
+    }
+
+    .product-header-right svg {
+        font-size: 19px;
+    }
+
+    .product-search {
+        width: 125px;
+        height: 34px;
+    }
+
+    .product-content {
+        padding: 20px 15px 50px;
+    }
+
+    .product-breadcrumb {
+        margin-bottom: 20px;
+        font-size: 11px;
+    }
+
+    .product-main {
+        gap: 30px;
+    }
+
+    .product-gallery {
+        grid-template-columns: 50px 1fr;
+        gap: 10px;
+    }
+
+    .product-thumbnails {
+        gap: 10px;
+    }
+
+    .thumbnail {
+        width: 45px;
+        height: 50px;
+    }
+
+    .product-main-image {
+        height: 330px;
+    }
+
+    .product-details h1 {
+        font-size: 25px;
+    }
+
+    .product-age {
+        font-size: 11px;
+    }
+
+    .product-rating {
+        margin-top: 10px;
+    }
+
+    .product-rating span {
+        font-size: 13px;
+    }
+
+    .product-price strong {
+        font-size: 18px;
+    }
+
+    .product-description {
+        margin-top: 20px;
+        font-size: 12px;
+    }
+
+    .product-description strong {
+        font-size: 15px;
+    }
+
+    .product-add-button,
+    .product-favorite-button {
+        max-width: none;
+
+        height: 48px;
+
+        font-size: 13px;
+    }
+
+    .shipping-calculator {
+        max-width: none;
+
+        margin-top: 35px;
+    }
+}
+
+/* =========================
+   CELULAR PEQUENO
+========================= */
+
+@media (max-width: 380px) {
+
+    .product-logo {
+        font-size: 17px;
+    }
+
+    .product-search {
+        width: 105px;
+    }
+
+    .product-main-image {
+        height: 290px;
+    }
+
+    .product-gallery {
+        grid-template-columns: 42px 1fr;
+    }
+
+    .thumbnail {
+        width: 38px;
+        height: 43px;
+    }
+
+    .product-details h1 {
+        font-size: 22px;
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "usuarios": [
+    {
+      "nome": "kaua",
+      "cpf": "55435579813",
+      "nascimento": "2009-03-08",
+      "telefone": "11945457710",
+      "email": "kauafidalgo01@gmail.com",
+      "senha": "kauafidalgo0803",
+      "id": "8CqeBma2ku0"
+    },
+    {
+      "nome": "admin",
+      "cpf": "55435579813",
+      "nascimento": "2009-03-08",
+      "telefone": "11945457710",
+      "email": "admin@gmail.com",
+      "senha": "admin1",
+      "id": "xh_8s1VL6vE"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

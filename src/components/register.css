@@ -1,0 +1,412 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+.register-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+
+    background: #f8f8fa;
+}
+
+/* =========================
+   ESQUERDA
+========================= */
+
+.register-left {
+    width: 50%;
+    min-height: 100vh;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.register-background {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.register-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 55px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(225, 70, 146, 0.42),
+            rgba(107, 43, 91, 0.78)
+        );
+}
+
+.register-logo {
+    width: 165px;
+
+    max-height: 70px;
+
+    object-fit: contain;
+
+    object-position: left center;
+}
+
+.register-content {
+    max-width: 510px;
+
+    color: white;
+
+    padding-bottom: 20px;
+}
+
+.register-small-title {
+    font-size: 13px;
+
+    letter-spacing: 4px;
+
+    font-weight: 600;
+}
+
+.register-content h1 {
+    margin-top: 20px;
+
+    font-size: clamp(34px, 3.2vw, 48px);
+
+    line-height: 1.18;
+
+    font-weight: 700;
+}
+
+.register-content p {
+    margin-top: 24px;
+
+    max-width: 490px;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+
+    opacity: 0.95;
+}
+
+.register-info {
+    margin-top: 35px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.register-info div {
+    width: fit-content;
+
+    min-width: 270px;
+
+    padding: 14px 20px;
+
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, 0.16);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    backdrop-filter: blur(10px);
+
+    font-size: 14px;
+}
+
+/* =========================
+   DIREITA
+========================= */
+
+.register-right {
+    width: 50%;
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 35px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.register-card {
+    width: 100%;
+
+    max-width: 520px;
+
+    padding: 42px;
+
+    background: white;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.07);
+}
+
+.register-back {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 22px;
+
+    color: #777;
+
+    font-size: 13px;
+
+    transition: 0.2s;
+}
+
+.register-back:hover {
+    color: #e34792;
+}
+
+.register-welcome {
+    color: #e34792;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.register-card h2 {
+    margin-top: 6px;
+
+    color: #222;
+
+    font-size: 32px;
+}
+
+.register-description {
+    margin-top: 8px;
+
+    margin-bottom: 22px;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+/* =========================
+   LABEL
+========================= */
+
+.register-card form > label,
+.register-double label {
+    display: block;
+
+    margin: 13px 0 7px;
+
+    color: #333;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.register-input {
+    width: 100%;
+
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 15px;
+
+    background: #fafafa;
+
+    border: 1px solid #e9e9e9;
+
+    border-radius: 12px;
+
+    transition: 0.25s;
+}
+
+.register-input:hover {
+    border-color: #e7a0c1;
+}
+
+.register-input:focus-within {
+    background: white;
+
+    border-color: #e34792;
+
+    box-shadow:
+        0 0 0 3px rgba(227, 71, 146, 0.08);
+}
+
+.register-input svg {
+    flex-shrink: 0;
+
+    color: #a5a5a5;
+
+    font-size: 17px;
+}
+
+.register-input input {
+    width: 100%;
+
+    margin-left: 12px;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #333;
+
+    font-family: 'Poppins';
+
+    font-size: 13px;
+}
+
+.register-input input::placeholder {
+    color: #999;
+}
+
+/* =========================
+   DOIS CAMPOS
+========================= */
+
+.register-double {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 13px;
+}
+
+/* =========================
+   BOTÃO
+========================= */
+
+.register-button {
+    width: 100%;
+
+    height: 52px;
+
+    margin-top: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #e34792;
+
+    color: white;
+
+    font-family: 'Poppins';
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.register-button:hover {
+    background: #cf2f7d;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(227, 71, 146, 0.25);
+}
+
+/* =========================
+   BOTTOM
+========================= */
+
+.register-bottom {
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+.register-bottom a {
+    margin-left: 5px;
+
+    color: #e34792;
+
+    font-weight: 600;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1100px) {
+
+    .register-left {
+        display: none;
+    }
+
+    .register-right {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .register-right {
+        padding: 20px;
+    }
+
+    .register-card {
+        padding: 30px 22px;
+
+        border-radius: 20px;
+    }
+
+    .register-card h2 {
+        font-size: 28px;
+    }
+
+    .register-double {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

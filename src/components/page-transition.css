@@ -1,0 +1,17 @@
+.page-transition {
+    animation: pageEnter 0.45s ease both;
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  @keyframes pageEnter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

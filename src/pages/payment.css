@@ -1,0 +1,403 @@
+/* =========================
+   PÁGINA
+========================= */
+
+.payment-page {
+    min-height: 100vh;
+
+    background: #fff;
+    color: #222;
+
+    font-family: 'Poppins', sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.checkout-header {
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 5%;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.checkout-logo {
+    border: none;
+    background: transparent;
+
+    color: #111;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.payment-container {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 45px auto;
+
+    padding: 0 30px;
+}
+
+/* =========================
+   ETAPAS
+========================= */
+
+.checkout-steps {
+    width: 100%;
+
+    min-height: 50px;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    margin-bottom: 35px;
+}
+
+.checkout-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    background: #ededed;
+    color: #222;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    letter-spacing: .4px;
+}
+
+.checkout-step.active,
+.checkout-step.completed {
+    background: #d9d9d9;
+}
+
+.checkout-step span {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #111;
+    color: white;
+
+    font-size: 11px;
+}
+
+/* =========================
+   ÁREA PRINCIPAL
+========================= */
+
+.payment-main {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 320px;
+
+    gap: 45px;
+
+    align-items: start;
+}
+
+/* =========================
+   OPÇÕES
+========================= */
+
+.payment-options {
+    padding-top: 5px;
+}
+
+.payment-options h2 {
+    margin: 0 0 25px;
+
+    color: #111;
+
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.payment-option {
+    width: 100%;
+    min-height: 60px;
+
+    margin-bottom: 15px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 22px;
+
+    border: 1px solid #ccc;
+
+    background: white;
+    color: #222;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.payment-option:hover {
+    border-color: #df4da0;
+}
+
+.payment-option.selected {
+    border: 1px solid #df4da0;
+
+    background: #fff2f8;
+
+    color: #df4da0;
+}
+
+/* =========================
+   RESUMO
+========================= */
+
+.payment-summary {
+    min-height: 250px;
+
+    padding: 25px;
+
+    background: #eeeeee;
+
+    border-radius: 10px;
+}
+
+.payment-summary h2 {
+    margin: 0 0 20px;
+
+    color: #111;
+
+    font-size: 17px;
+    font-weight: 600;
+}
+
+/* =========================
+   PRODUTOS
+========================= */
+
+.summary-products {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+.summary-product {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    color: #333;
+
+    font-size: 12px;
+}
+
+.summary-product strong {
+    white-space: nowrap;
+}
+
+/* =========================
+   LINHAS
+========================= */
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 9px 0;
+
+    border-bottom: 1px solid rgba(0, 0, 0, .08);
+
+    color: #333;
+
+    font-size: 12px;
+}
+
+.summary-line strong {
+    font-weight: 500;
+}
+
+.summary-line .pink {
+    color: #df4da0;
+}
+
+/* =========================
+   TOTAL
+========================= */
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 15px;
+
+    color: #111;
+
+    font-size: 13px;
+}
+
+.summary-total strong {
+    font-size: 18px;
+}
+
+/* =========================
+   FINALIZAR
+========================= */
+
+.finish-button {
+    width: 220px;
+    height: 45px;
+
+    display: block;
+
+    margin: 30px auto 0;
+
+    border: none;
+    border-radius: 25px;
+
+    background: #df4da0;
+    color: white;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.finish-button:hover {
+    background: #c92f83;
+
+    transform: translateY(-1px);
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 850px) {
+
+    .payment-container {
+        padding: 0 25px;
+    }
+
+    .payment-main {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .payment-summary {
+        width: 100%;
+    }
+}
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    .checkout-header {
+        min-height: 62px;
+        padding: 0 18px;
+    }
+
+    .checkout-logo {
+        font-size: 18px;
+    }
+
+    .payment-container {
+        margin: 25px auto;
+        padding: 0 15px;
+    }
+
+    .checkout-steps {
+        min-height: 48px;
+        margin-bottom: 25px;
+    }
+
+    .checkout-step {
+        gap: 5px;
+        font-size: 9px;
+    }
+
+    .checkout-step span {
+        width: 20px;
+        height: 20px;
+        font-size: 9px;
+    }
+
+    .payment-options h2 {
+        font-size: 19px;
+        margin-bottom: 20px;
+    }
+
+    .payment-option {
+        min-height: 55px;
+
+        padding: 0 15px;
+
+        font-size: 12px;
+    }
+
+    .payment-summary {
+        padding: 20px;
+    }
+
+    .payment-summary h2 {
+        font-size: 16px;
+    }
+
+    .summary-product,
+    .summary-line {
+        font-size: 11px;
+    }
+
+    .summary-total {
+        font-size: 12px;
+    }
+
+    .summary-total strong {
+        font-size: 16px;
+    }
+
+    .finish-button {
+        width: 100%;
+        max-width: 300px;
+    }
+}

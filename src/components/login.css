@@ -1,0 +1,453 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+.auth-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    background: #f8f8fa;
+}
+
+/* =========================
+   LADO ESQUERDO
+========================= */
+
+.auth-left {
+    width: 50%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+}
+
+.auth-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 55px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(225, 70, 146, 0.42),
+            rgba(107, 43, 91, 0.78)
+        );
+}
+
+.auth-logo {
+    width: 165px;
+    max-height: 70px;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.auth-content {
+    color: white;
+    max-width: 530px;
+    padding-bottom: 20px;
+}
+
+.auth-small-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 4px;
+}
+
+.auth-content h1 {
+    margin-top: 20px;
+
+    font-size: clamp(34px, 3.2vw, 48px);
+    line-height: 1.18;
+
+    font-weight: 700;
+}
+
+.auth-content p {
+    margin-top: 24px;
+
+    font-size: 16px;
+    line-height: 1.8;
+
+    max-width: 500px;
+
+    opacity: 0.95;
+}
+
+.auth-info {
+    margin-top: 35px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-info div {
+    width: fit-content;
+    min-width: 270px;
+
+    padding: 14px 20px;
+
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, 0.16);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    backdrop-filter: blur(10px);
+
+    font-size: 14px;
+}
+
+/* =========================
+   LADO DIREITO
+========================= */
+
+.auth-right {
+    width: 50%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.auth-card {
+    width: 100%;
+    max-width: 470px;
+
+    padding: 52px;
+
+    background: #ffffff;
+
+    border-radius: 26px;
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.07);
+}
+
+.auth-welcome {
+    color: #e34792;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auth-card h2 {
+    margin-top: 7px;
+
+    color: #222;
+
+    font-size: 34px;
+    line-height: 1.2;
+
+    font-weight: 700;
+}
+
+.auth-description {
+    margin-top: 12px;
+    margin-bottom: 28px;
+
+    color: #707070;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* =========================
+   LABEL
+========================= */
+
+.auth-card form > label {
+    display: block;
+
+    margin: 17px 0 8px;
+
+    color: #333;
+
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.auth-input {
+    width: 100%;
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 17px;
+
+    background: #fafafa;
+
+    border: 1px solid #e9e9e9;
+
+    border-radius: 13px;
+
+    transition: 0.25s;
+}
+
+.auth-input:hover {
+    border-color: #e7a0c1;
+}
+
+.auth-input:focus-within {
+    background: white;
+
+    border-color: #e34792;
+
+    box-shadow:
+        0 0 0 3px rgba(227, 71, 146, 0.08);
+}
+
+.auth-input svg {
+    flex-shrink: 0;
+
+    color: #a6a6a6;
+
+    font-size: 18px;
+}
+
+.auth-input input {
+    width: 100%;
+
+    margin-left: 13px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #333;
+
+    font-size: 14px;
+}
+
+.auth-input input::placeholder {
+    color: #999;
+}
+
+/* =========================
+   LEMBRAR
+========================= */
+
+.remember-row {
+    margin-top: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #444;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.remember input {
+    width: 15px;
+    height: 15px;
+
+    accent-color: #e34792;
+
+    cursor: pointer;
+}
+
+.forgot-button {
+    width: auto;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #e34792;
+
+    font-family: 'Poppins';
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: none;
+    transform: none;
+}
+
+.forgot-button:hover {
+    background: transparent;
+
+    box-shadow: none;
+
+    transform: none;
+
+    color: #c82f77;
+}
+
+/* =========================
+   BOTÃO LOGIN
+========================= */
+
+.auth-button {
+    width: 100%;
+    height: 54px;
+
+    margin-top: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border: none;
+    border-radius: 13px;
+
+    background: #e34792;
+
+    color: white;
+
+    font-family: 'Poppins';
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.auth-button:hover {
+    background: #cf2f7d;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(227, 71, 146, 0.25);
+}
+
+.auth-button svg {
+    font-size: 18px;
+}
+
+/* =========================
+   DIVISOR
+========================= */
+
+.auth-divider {
+    margin: 28px 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #ededed;
+}
+
+/* =========================
+   FINAL
+========================= */
+
+.auth-bottom {
+    margin: 0;
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+.auth-bottom a {
+    margin-left: 5px;
+
+    color: #e34792;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.auth-bottom a:hover {
+    color: #c82f77;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1050px) {
+
+    .auth-left {
+        display: none;
+    }
+
+    .auth-right {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .auth-right {
+        padding: 20px;
+    }
+
+    .auth-card {
+        padding: 35px 25px;
+        border-radius: 20px;
+    }
+
+    .auth-card h2 {
+        font-size: 29px;
+    }
+
+    .remember-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

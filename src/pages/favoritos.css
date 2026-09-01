@@ -1,0 +1,365 @@
+/* =========================
+   PÁGINA
+========================= */
+
+.favoritos-page {
+    min-height: 100vh;
+    background: #fff;
+    color: #222;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.favorite-header-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    border: none;
+    background: transparent;
+
+    color: #777;
+    font-family: 'Poppins';
+    font-size: 14px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.favorite-header-button:hover {
+    color: #e34792;
+}
+
+.favorite-header-button svg {
+    font-size: 18px;
+}
+
+/* =========================
+   CONTEÚDO
+========================= */
+
+.favoritos-content {
+    width: 100%;
+    max-width: 1500px;
+
+    margin: auto;
+
+    padding: 70px 60px;
+}
+
+.favoritos-title {
+    margin-bottom: 45px;
+}
+
+.favoritos-title span {
+    color: #e34792;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    letter-spacing: 4px;
+}
+
+.favoritos-title h1 {
+    margin-top: 10px;
+
+    font-size: 38px;
+    font-weight: 600;
+}
+
+.favoritos-title p {
+    margin-top: 8px;
+
+    color: #888;
+    font-size: 15px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.favoritos-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 35px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.favorito-card {
+    overflow: hidden;
+
+    border: 1px solid #eee;
+    border-radius: 12px;
+
+    background: white;
+
+    transition: 0.25s;
+}
+
+.favorito-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   IMAGEM
+========================= */
+
+.favorito-image {
+    width: 100%;
+    height: 330px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f7f7f7;
+
+    cursor: pointer;
+}
+
+.favorito-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+/* =========================
+   INFORMAÇÕES
+========================= */
+
+.favorito-info {
+    padding: 24px;
+}
+
+.favorito-name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.favorito-name h3 {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.favorito-name button {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+    color: #e34792;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.favorito-name button:hover {
+    color: #c72f7c;
+    background: #fff0f7;
+}
+
+.favorito-category {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #888;
+    font-size: 13px;
+}
+
+.favorito-rating {
+    margin-top: 14px;
+
+    color: #f1c400;
+    font-size: 13px;
+}
+
+.favorito-rating small {
+    margin-left: 5px;
+    color: #666;
+}
+
+.favorito-price {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 10px;
+}
+
+.favorito-price strong {
+    color: #333;
+    font-size: 16px;
+}
+
+.favorito-price del {
+    color: #999;
+    font-size: 13px;
+}
+
+/* =========================
+   BOTÃO
+========================= */
+
+.favorito-product-button {
+    width: 100%;
+    height: 45px;
+
+    margin-top: 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #df4da0;
+    color: white;
+
+    font-family: 'Poppins';
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.favorito-product-button:hover {
+    background: #c92f83;
+}
+
+/* =========================
+   VAZIO
+========================= */
+
+.favoritos-vazio {
+    min-height: 400px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    border: 1px solid #eee;
+    border-radius: 12px;
+}
+
+.favoritos-vazio svg {
+    color: #e34792;
+    font-size: 50px;
+}
+
+.favoritos-vazio h2 {
+    margin-top: 18px;
+    font-size: 25px;
+}
+
+.favoritos-vazio p {
+    margin-top: 8px;
+
+    color: #888;
+    font-size: 14px;
+}
+
+.favoritos-vazio button {
+    width: 220px;
+    height: 45px;
+
+    margin-top: 25px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #df4da0;
+    color: white;
+
+    font-family: 'Poppins';
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1000px) {
+
+    .favoritos-content {
+        padding: 55px 35px;
+    }
+
+    .favoritos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .favorito-image {
+        height: 300px;
+    }
+}
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    .favoritos-content {
+        padding: 40px 15px;
+    }
+
+    .favoritos-title {
+        margin-bottom: 30px;
+    }
+
+    .favoritos-title span {
+        font-size: 11px;
+        letter-spacing: 3px;
+    }
+
+    .favoritos-title h1 {
+        font-size: 28px;
+    }
+
+    .favoritos-title p {
+        font-size: 13px;
+    }
+
+    .favoritos-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .favorito-image {
+        height: 280px;
+    }
+
+    .favorito-info {
+        padding: 18px;
+    }
+
+    .favorito-name h3 {
+        font-size: 15px;
+    }
+}
