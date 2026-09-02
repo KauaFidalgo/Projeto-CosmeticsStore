@@ -179,10 +179,10 @@
 }
 
 .identification-content input:focus {
-    border-color: #df4da0;
+    border-color: #c7ccd5;
 
     box-shadow:
-        0 0 0 3px rgba(223, 77, 160, .10);
+        0 0 0 3px rgba(15, 23, 42, .05);
 }
 
 /* =========================
@@ -309,5 +309,226 @@
 
     .identification-content {
         padding: 22px 15px;
+    }
+}
+
+/* =========================
+   ENDEREÇO DE ENTREGA
+========================= */
+
+.address-block {
+    margin-top: 8px;
+
+    padding-top: 18px;
+
+    border-top: 1px dashed #ddd;
+}
+
+.address-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 14px;
+
+    color: #111;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.address-title svg {
+    color: #df4da0;
+}
+
+.address-card {
+    padding: 16px;
+
+    background: white;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    font-size: 13px;
+    color: #333;
+
+    transition: 0.2s;
+}
+
+.address-card.confirmed {
+    border-color: #6fcf97;
+    background: #f3fbf6;
+}
+
+.address-card p {
+    margin: 0;
+    font-weight: 500;
+}
+
+.address-complemento,
+.address-cep {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #777;
+    font-size: 12px;
+}
+
+.address-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 14px;
+}
+
+.address-edit-button,
+.address-confirm-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    height: 38px;
+
+    padding: 0 16px;
+
+    border-radius: 20px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.address-edit-button {
+    border: 1px solid #ccc;
+    background: white;
+    color: #555;
+}
+
+.address-edit-button:hover {
+    border-color: #df4da0;
+    color: #df4da0;
+}
+
+.address-confirm-button {
+    border: none;
+    background: #df4da0;
+    color: white;
+}
+
+.address-confirm-button:hover {
+    background: #c92f83;
+}
+
+.address-confirm-button.confirmed {
+    background: #34a866;
+}
+
+.address-confirm-button.confirmed:hover {
+    background: #2c8f57;
+}
+
+.address-confirm-button:disabled,
+.address-edit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.address-edit-form {
+    padding: 16px;
+
+    background: white;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    animation: addressFadeIn 0.25s ease both;
+}
+
+.address-edit-form label {
+    display: block;
+
+    margin: 10px 0 6px;
+
+    color: #333;
+
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+.address-edit-form label:first-child {
+    margin-top: 0;
+}
+
+.address-edit-form input {
+    width: 100%;
+    height: 42px;
+
+    border: 1px solid #ddd;
+    border-radius: 6px;
+
+    background: #fafafa;
+
+    padding: 0 12px;
+
+    outline: none;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 12.5px;
+
+    transition: 0.2s;
+}
+
+.address-edit-form input:focus {
+    border-color: #c7ccd5;
+    background: white;
+
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05);
+}
+
+.address-error {
+    margin-top: 10px;
+
+    color: #d92d4e;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.identification-double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@keyframes addressFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .identification-double {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .address-actions {
+        flex-direction: column;
+    }
+
+    .address-edit-button,
+    .address-confirm-button {
+        width: 100%;
+        justify-content: center;
     }
 }

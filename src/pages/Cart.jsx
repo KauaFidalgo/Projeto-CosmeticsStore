@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { FiShield, FiShoppingBag, FiTrash2 } from "react-icons/fi";
+import { lerDadosUsuario, salvarDadosUsuario } from "../utils/storageUsuario";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -13,15 +14,14 @@ export default function Cart() {
   const [cep, setCep] = useState("");
 
   useEffect(() => {
-    const produtos = JSON.parse(localStorage.getItem("carrinho")) || [];
-
+    const produtos = lerDadosUsuario("carrinho");
     setCarrinho(produtos);
   }, []);
 
   function atualizarCarrinho(novoCarrinho) {
     setCarrinho(novoCarrinho);
 
-    localStorage.setItem("carrinho", JSON.stringify(novoCarrinho));
+    salvarDadosUsuario("carrinho", novoCarrinho);
   }
 
   function aumentarQuantidade(id) {

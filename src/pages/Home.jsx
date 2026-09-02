@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Header from "../components/Header";
 import { FiHeart } from "react-icons/fi";
+import { lerDadosUsuario, salvarDadosUsuario } from "../utils/storageUsuario";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -24,20 +25,8 @@ export default function Home() {
     // CARREGAR FAVORITOS
     // =========================
 
-    const favoritosSalvos = localStorage.getItem("favoritos");
-
-    if (favoritosSalvos) {
-      try {
-        const favoritosConvertidos = JSON.parse(favoritosSalvos);
-
-        setFavoritos(
-          Array.isArray(favoritosConvertidos) ? favoritosConvertidos : []
-        );
-      } catch (error) {
-        console.error("Erro ao carregar favoritos:", error);
-        setFavoritos([]);
-      }
-    }
+    const favoritosSalvos = lerDadosUsuario("favoritos");
+    setFavoritos(favoritosSalvos);
 
     // =========================
     // CARREGAR PRODUTOS
@@ -85,7 +74,7 @@ export default function Home() {
     }
 
     setFavoritos(novosFavoritos);
-    localStorage.setItem("favoritos", JSON.stringify(novosFavoritos));
+    salvarDadosUsuario("favoritos", novosFavoritos);
   }
 
   // =========================
@@ -103,8 +92,7 @@ export default function Home() {
 
   function adicionarSacola(produto) {
     try {
-      const carrinhoSalvo = localStorage.getItem("carrinho");
-      const carrinhoAtual = carrinhoSalvo ? JSON.parse(carrinhoSalvo) : [];
+      const carrinhoAtual = lerDadosUsuario("carrinho");
 
       const produtoExistente = carrinhoAtual.find(
         (item) => item.id === produto.id
@@ -122,7 +110,7 @@ export default function Home() {
         novoCarrinho = [...carrinhoAtual, { ...produto, quantidade: 1 }];
       }
 
-      localStorage.setItem("carrinho", JSON.stringify(novoCarrinho));
+      salvarDadosUsuario("carrinho", novoCarrinho);
       navigate("/carrinho");
     } catch (error) {
       console.error("Erro ao adicionar produto à sacola:", error);
@@ -150,7 +138,6 @@ export default function Home() {
 
   return (
     <div className="home-page">
-
       <Header
         busca={busca}
         onBuscaChange={setBusca}
@@ -166,15 +153,9 @@ export default function Home() {
       )}
 
       <main className="products-container">
-
         {carregando ? (
-
-          <div className="products-loading">
-            Carregando produtos...
-          </div>
-
+          <div className="products-loading">Carregando produtos...</div>
         ) : produtosFiltrados.length === 0 ? (
-
           <div className="no-products">
             <FiHeart />
 
@@ -191,9 +172,7 @@ export default function Home() {
               Ver todos os produtos
             </button>
           </div>
-
         ) : (
-
           <div className="products-grid">
             {produtosFiltrados.map((produto) => (
               <article
@@ -267,11 +246,8 @@ export default function Home() {
               </article>
             ))}
           </div>
-
         )}
-
       </main>
-
     </div>
   );
 }

@@ -6,7 +6,16 @@
       "nascimento": "2009-03-08",
       "telefone": "11945457710",
       "email": "kauafidalgo01@gmail.com",
-      "senha": "kaua123",
+      "senha": "Kaua123",
+      "endereco": {
+        "cep": "03251-060",
+        "rua": "R. Fruta de Guariba",
+        "numero": "67",
+        "complemento": "",
+        "bairro": "Vila Industrial",
+        "cidade": "São Paulo",
+        "estado": "SP"
+      },
       "id": "8CqeBma2ku0"
     },
     {
@@ -16,6 +25,15 @@
       "telefone": "11945457710",
       "email": "admin@gmail.com",
       "senha": "admin1",
+      "endereco": {
+        "cep": "03251-030",
+        "rua": "R. Fruta de Guariba",
+        "numero": "62",
+        "complemento": "",
+        "bairro": "Vila Industrial",
+        "cidade": "São Paulo",
+        "estado": "SP"
+      },
       "id": "xh_8s1VL6vE"
     }
   ],
@@ -107,6 +125,35 @@
       "imagem": "/images/restylane.png",
       "avaliacao": "4.8",
       "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para preenchimento e rejuvenescimento facial, com efeito imediato e estímulo progressivo de colágeno."
+    }
+  ],
+  "recuperacoes": [
+    {
+      "email": "admin@gmail.com",
+      "codigo": "436414",
+      "criadoEm": "2026-09-02T12:04:15.523Z",
+      "expiraEm": "2026-09-02T12:09:15.523Z",
+      "usado": true,
+      "tentativas": 0,
+      "id": "LA7ZZt2TOi4"
+    },
+    {
+      "email": "kauafidalgo01@gmail.com",
+      "codigo": "737235",
+      "criadoEm": "2026-09-02T12:13:34.695Z",
+      "expiraEm": "2026-09-02T12:18:34.695Z",
+      "usado": true,
+      "tentativas": 0,
+      "id": "awIjB0RGhWU"
+    },
+    {
+      "email": "kauafidalgo01@gmail.com",
+      "codigo": "332817",
+      "criadoEm": "2026-09-02T12:48:37.089Z",
+      "expiraEm": "2026-09-02T12:53:37.089Z",
+      "usado": true,
+      "tentativas": 0,
+      "id": "b_Tj7S5DPL0"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

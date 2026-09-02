@@ -5,6 +5,7 @@ import { FiHeart, FiTrash2 } from "react-icons/fi";
 import { useEffect, useState } from "react";
 
 import Header from "../components/Header";
+import { lerDadosUsuario, salvarDadosUsuario } from "../utils/storageUsuario";
 
 export default function Favoritos() {
   const navigate = useNavigate();
@@ -12,24 +13,7 @@ export default function Favoritos() {
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
 
-  const [favoritos, setFavoritos] = useState(() => {
-    try {
-      const favoritosSalvos = localStorage.getItem("favoritos");
-
-      if (!favoritosSalvos) {
-        return [];
-      }
-
-      const favoritosConvertidos = JSON.parse(favoritosSalvos);
-
-      return Array.isArray(favoritosConvertidos)
-        ? favoritosConvertidos
-        : [];
-    } catch (error) {
-      console.error("Erro ao carregar favoritos:", error);
-      return [];
-    }
-  });
+  const [favoritos, setFavoritos] = useState(() => lerDadosUsuario("favoritos"));
 
   useEffect(() => {
     async function carregarProdutos() {
@@ -62,7 +46,7 @@ export default function Favoritos() {
     );
 
     setFavoritos(novosFavoritos);
-    localStorage.setItem("favoritos", JSON.stringify(novosFavoritos));
+    salvarDadosUsuario("favoritos", novosFavoritos);
   }
 
   function abrirProduto(id) {

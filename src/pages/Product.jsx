@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import Header from "../components/Header";
 import { FiHeart } from "react-icons/fi";
+import { lerDadosUsuario, salvarDadosUsuario } from "../utils/storageUsuario";
 
 export default function Product() {
   const navigate = useNavigate();
@@ -44,12 +45,8 @@ export default function Product() {
 
   useEffect(() => {
     try {
-      const favoritosSalvos = localStorage.getItem("favoritos");
-      const favoritos = favoritosSalvos ? JSON.parse(favoritosSalvos) : [];
-
-      setFavoritado(
-        Array.isArray(favoritos) && favoritos.includes(Number(id))
-      );
+      const favoritos = lerDadosUsuario("favoritos");
+      setFavoritado(Array.isArray(favoritos) && favoritos.includes(Number(id)));
     } catch (error) {
       setFavoritado(false);
     }
@@ -116,10 +113,7 @@ export default function Product() {
 
   function adicionarSacola() {
     try {
-      const carrinhoSalvo = localStorage.getItem("carrinho");
-      const carrinhoAtual = carrinhoSalvo
-        ? JSON.parse(carrinhoSalvo)
-        : [];
+      const carrinhoAtual = lerDadosUsuario("carrinho");
 
       const produtoExistente = carrinhoAtual.find(
         (item) => item.id === produto.id
@@ -137,7 +131,7 @@ export default function Product() {
         novoCarrinho = [...carrinhoAtual, { ...produto, quantidade: 1 }];
       }
 
-      localStorage.setItem("carrinho", JSON.stringify(novoCarrinho));
+      salvarDadosUsuario("carrinho", novoCarrinho);
       navigate("/carrinho");
     } catch (error) {
       console.error("Erro ao adicionar à sacola:", error);
@@ -146,8 +140,7 @@ export default function Product() {
 
   function alternarFavorito() {
     try {
-      const favoritosSalvos = localStorage.getItem("favoritos");
-      const favoritos = favoritosSalvos ? JSON.parse(favoritosSalvos) : [];
+      const favoritos = lerDadosUsuario("favoritos");
 
       let novosFavoritos;
 
@@ -161,7 +154,7 @@ export default function Product() {
         setFavoritado(true);
       }
 
-      localStorage.setItem("favoritos", JSON.stringify(novosFavoritos));
+      salvarDadosUsuario("favoritos", novosFavoritos);
     } catch (error) {
       console.error("Erro ao alterar favorito:", error);
     }

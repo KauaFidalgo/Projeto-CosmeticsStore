@@ -307,7 +307,7 @@
     transition: border-color .2s, box-shadow .2s;
 }
 
-.delivery-input:focus-within { border-color: #df4da0; box-shadow: 0 0 0 3px rgba(223, 77, 160, .1); }
+.delivery-input:focus-within { border-color: #c7ccd5; box-shadow: 0 0 0 3px rgba(15, 23, 42, .05); }
 .delivery-input input { min-width: 0; flex: 1; padding: 0 13px; border: none; background: transparent; color: #222; font-family: inherit; font-size: 12px; }
 .delivery-input input::placeholder { color: #bbb; }
 .delivery-input button { margin: 4px; padding: 0 16px; border: none; border-radius: 18px; background: #df4da0; color: #fff; font-family: inherit; font-size: 11px; font-weight: 500; transition: background .2s; }

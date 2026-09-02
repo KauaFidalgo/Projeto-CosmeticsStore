@@ -390,8 +390,8 @@
 
 .field input:focus,
 .field select:focus {
-    border-color: #df4da0;
-    box-shadow: 0 0 0 3px rgba(223, 77, 160, 0.12);
+    border-color: #c7ccd5;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05);
 }
 
 .field input::placeholder {

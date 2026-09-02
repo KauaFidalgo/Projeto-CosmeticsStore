@@ -13,6 +13,7 @@ import {
   FiCheckCircle,
   FiChevronLeft,
 } from "react-icons/fi";
+import { lerDadosUsuario, removerDadosUsuario } from "../utils/storageUsuario";
 
 const CODIGO_PIX =
   "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO";
@@ -36,7 +37,7 @@ export default function Payment() {
   const [pedido, setPedido] = useState(null);
 
   useEffect(() => {
-    const produtos = JSON.parse(localStorage.getItem("carrinho")) || [];
+    const produtos = lerDadosUsuario("carrinho");
     setCarrinho(produtos);
   }, []);
 
@@ -186,7 +187,7 @@ export default function Payment() {
         itens: carrinho.length,
       });
 
-      localStorage.removeItem("carrinho");
+      removerDadosUsuario("carrinho");
       setProcessando(false);
     }, 1800);
   }
@@ -404,7 +405,7 @@ export default function Payment() {
                     <label className="field field-full">
                       <span>Número do cartão</span>
 
-                      <div className="field-input">
+                      < div className="field-input">
                         <input
                           type="text"
                           inputMode="numeric"

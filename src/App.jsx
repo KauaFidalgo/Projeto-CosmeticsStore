@@ -12,7 +12,7 @@ import PageTransition from "./components/PageTransition";
 
 import Login from "./components/Login";
 import Register from "./components/Register";
-import PasswordRecovery from "./components/PasswordRecovery";
+import ForgotPassword from "./pages/ForgotPassword";
 
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -39,22 +39,22 @@ function AnimatedRoutes() {
           }
         />
 
-        {/* RECUPERAÇÃO DE SENHA */}
-        <Route
-          path="/recuperar-senha"
-          element={
-            <PageTransition>
-              <PasswordRecovery />
-            </PageTransition>
-          }
-        />
-
         {/* CADASTRO */}
         <Route
           path="/cadastro"
           element={
             <PageTransition>
               <Register />
+            </PageTransition>
+          }
+        />
+
+        {/* ESQUECI MINHA SENHA */}
+        <Route
+          path="/recuperar-senha"
+          element={
+            <PageTransition>
+              <ForgotPassword />
             </PageTransition>
           }
         />

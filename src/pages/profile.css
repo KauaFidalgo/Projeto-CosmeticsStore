@@ -220,9 +220,9 @@
 
 .profile-edit-form input:focus {
     background: white;
-    border-color: #df4da0;
+    border-color: #c7ccd5;
 
-    box-shadow: 0 0 0 3px rgba(223, 77, 160, 0.1);
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05);
 }
 
 .profile-edit-actions {
@@ -323,5 +323,41 @@
 
     .profile-nickname {
         font-size: 19px;
+    }
+}
+
+/* =========================
+   EDIÇÃO DE ENDEREÇO
+========================= */
+
+.profile-address-title {
+    width: 100%;
+
+    margin-top: 6px;
+
+    color: #333;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-align: left;
+}
+
+.profile-double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.profile-error {
+    color: #d92d4e;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .profile-double {
+        grid-template-columns: 1fr;
+        gap: 0;
     }
 }

@@ -16,13 +16,27 @@ import {
   FiX,
 } from "react-icons/fi";
 
+import { enderecoVazio, formatarEndereco } from "../utils/endereco";
+
 export default function Profile() {
   const navigate = useNavigate();
 
-  const [usuario, setUsuario] = useState(null);
-  const [perfil, setPerfil] = useState({ email: "", endereco: "" });
+  const [usuarioId, setUsuarioId] = useState(null);
+  const [nome, setNome] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [endereco, setEndereco] = useState(enderecoVazio);
+
   const [editando, setEditando] = useState(false);
-  const [form, setForm] = useState({ email: "", endereco: "" });
+  const [form, setForm] = useState({ email: "", ...enderecoVazio });
+
+  const [carregando, setCarregando] = useState(true);
+  const [salvando, setSalvando] = useState(false);
+  const [erro, setErro] = useState("");
+
+  // =========================
+  // CARREGAR USUÁRIO
+  // =========================
 
   useEffect(() => {
     const usuarioSalvo = localStorage.getItem("usuarioLogado");
@@ -32,65 +46,150 @@ export default function Profile() {
       return;
     }
 
+    let usuarioLocal;
+
     try {
-      const usuarioConvertido = JSON.parse(usuarioSalvo);
-
-      setUsuario(usuarioConvertido);
-
-      const perfilSalvo = localStorage.getItem("perfilInfo");
-      const perfilConvertido = perfilSalvo ? JSON.parse(perfilSalvo) : {};
-
-      const perfilAtual = {
-        email: perfilConvertido.email || usuarioConvertido.email,
-        endereco: perfilConvertido.endereco || "",
-      };
-
-      setPerfil(perfilAtual);
-      setForm(perfilAtual);
+      usuarioLocal = JSON.parse(usuarioSalvo);
     } catch (error) {
       console.error("Erro ao carregar perfil:", error);
       navigate("/", { replace: true });
+      return;
     }
+
+    async function carregarUsuario() {
+      try {
+        const resposta = await fetch(
+          `http://localhost:3000/usuarios/${usuarioLocal.id}`
+        );
+
+        if (!resposta.ok) {
+          throw new Error("Usuário não encontrado.");
+        }
+
+        const dados = await resposta.json();
+        aplicarUsuario(dados);
+      } catch (error) {
+        console.error("Erro ao buscar perfil no servidor:", error);
+        aplicarUsuario(usuarioLocal);
+      } finally {
+        setCarregando(false);
+      }
+    }
+
+    carregarUsuario();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
+
+  function aplicarUsuario(dados) {
+    const enderecoAtual = { ...enderecoVazio, ...(dados.endereco || {}) };
+
+    setUsuarioId(dados.id);
+    setNome(dados.nome || "");
+    setEmail(dados.email || "");
+    setEndereco(enderecoAtual);
+
+    setForm({ email: dados.email || "", ...enderecoAtual });
+
+    localStorage.setItem("usuarioLogado", JSON.stringify(dados));
+  }
+
+  // =========================
+  // EDITAR PERFIL
+  // =========================
 
   function alterarCampo(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
   function abrirEdicao() {
-    setForm(perfil);
+    setForm({ email, ...endereco });
+    setErro("");
     setEditando(true);
   }
 
   function cancelarEdicao() {
-    setForm(perfil);
+    setForm({ email, ...endereco });
+    setErro("");
     setEditando(false);
   }
 
-  function salvarEdicao(e) {
+  async function salvarEdicao(e) {
     e.preventDefault();
+    setErro("");
 
-    if (!form.email.trim()) {
-      alert("Informe um e-mail válido.");
+    const emailFormatado = form.email.trim().toLowerCase();
+
+    if (!emailFormatado) {
+      setErro("Informe um e-mail válido.");
       return;
     }
 
-    const perfilAtualizado = {
-      email: form.email.trim().toLowerCase(),
-      endereco: form.endereco.trim(),
+    const enderecoAtualizado = {
+      cep: form.cep.trim(),
+      rua: form.rua.trim(),
+      numero: form.numero.trim(),
+      complemento: form.complemento.trim(),
+      bairro: form.bairro.trim(),
+      cidade: form.cidade.trim(),
+      estado: form.estado.trim(),
     };
 
-    localStorage.setItem("perfilInfo", JSON.stringify(perfilAtualizado));
+    setSalvando(true);
 
-    setPerfil(perfilAtualizado);
-    setEditando(false);
+    try {
+      const resposta = await fetch(
+        `http://localhost:3000/usuarios/${usuarioId}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: emailFormatado,
+            endereco: enderecoAtualizado,
+          }),
+        }
+      );
+
+      if (!resposta.ok) {
+        throw new Error("Erro ao salvar perfil.");
+      }
+
+      const usuarioAtualizado = await resposta.json();
+
+      aplicarUsuario(usuarioAtualizado);
+      setEditando(false);
+    } catch (error) {
+      console.error(error);
+      setErro(
+        "Não foi possível salvar suas alterações. Verifique se o JSON Server está rodando."
+      );
+    } finally {
+      setSalvando(false);
+    }
   }
 
-  if (!usuario) {
-    return null;
+  if (carregando) {
+    return (
+      <div className="home-page">
+        <Header />
+
+        <div
+          style={{
+            minHeight: "50vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#999",
+            fontFamily: "Poppins, sans-serif",
+          }}
+        >
+          Carregando perfil...
+        </div>
+      </div>
+    );
   }
 
-  const nickname = perfil.email ? perfil.email.split("@")[0] : "Usuário";
+  const nickname = email ? email.split("@")[0] : nome || "Usuário";
+  const enderecoTexto = formatarEndereco(endereco);
 
   return (
     <div className="home-page">
@@ -111,13 +210,13 @@ export default function Profile() {
 
             <div className="profile-info-item">
               <FiMail />
-              <span>{perfil.email}</span>
+              <span>{email}</span>
             </div>
 
             <div className="profile-info-item">
               <FiMapPin />
               <span>
-                {perfil.endereco || "Nenhum endereço cadastrado"}
+                {enderecoTexto || "Nenhum endereço cadastrado"}
               </span>
             </div>
 
@@ -146,16 +245,100 @@ export default function Profile() {
                 />
               </label>
 
+              <div className="profile-address-title">Endereço</div>
+
+              <div className="profile-double">
+
+                <label>
+                  CEP
+                  <input
+                    type="text"
+                    name="cep"
+                    value={form.cep}
+                    onChange={alterarCampo}
+                    placeholder="00000-000"
+                    maxLength="9"
+                  />
+                </label>
+
+                <label>
+                  Estado
+                  <input
+                    type="text"
+                    name="estado"
+                    value={form.estado}
+                    onChange={alterarCampo}
+                    placeholder="UF"
+                    maxLength="2"
+                  />
+                </label>
+
+              </div>
+
               <label>
-                Endereço
+                Rua
                 <input
                   type="text"
-                  name="endereco"
-                  value={form.endereco}
+                  name="rua"
+                  value={form.rua}
                   onChange={alterarCampo}
-                  placeholder="Rua, número, bairro, cidade"
+                  placeholder="Nome da rua"
                 />
               </label>
+
+              <div className="profile-double">
+
+                <label>
+                  Número
+                  <input
+                    type="text"
+                    name="numero"
+                    value={form.numero}
+                    onChange={alterarCampo}
+                    placeholder="Nº"
+                  />
+                </label>
+
+                <label>
+                  Complemento
+                  <input
+                    type="text"
+                    name="complemento"
+                    value={form.complemento}
+                    onChange={alterarCampo}
+                    placeholder="Apto, bloco..."
+                  />
+                </label>
+
+              </div>
+
+              <div className="profile-double">
+
+                <label>
+                  Bairro
+                  <input
+                    type="text"
+                    name="bairro"
+                    value={form.bairro}
+                    onChange={alterarCampo}
+                    placeholder="Bairro"
+                  />
+                </label>
+
+                <label>
+                  Cidade
+                  <input
+                    type="text"
+                    name="cidade"
+                    value={form.cidade}
+                    onChange={alterarCampo}
+                    placeholder="Cidade"
+                  />
+                </label>
+
+              </div>
+
+              {erro && <p className="profile-error">{erro}</p>}
 
               <div className="profile-edit-actions">
 
@@ -163,14 +346,19 @@ export default function Profile() {
                   type="button"
                   className="profile-cancel-button"
                   onClick={cancelarEdicao}
+                  disabled={salvando}
                 >
                   <FiX />
                   Cancelar
                 </button>
 
-                <button type="submit" className="profile-save-button">
+                <button
+                  type="submit"
+                  className="profile-save-button"
+                  disabled={salvando}
+                >
                   <FiCheck />
-                  Salvar
+                  {salvando ? "Salvando..." : "Salvar"}
                 </button>
 
               </div>
@@ -180,8 +368,8 @@ export default function Profile() {
           )}
 
           <p className="profile-note">
-            Seus dados de cadastro continuam os mesmos. As alterações
-            aqui afetam apenas as informações exibidas no seu perfil.
+            Seu e-mail e endereço ficam salvos na sua conta e também são
+            usados automaticamente no checkout.
           </p>
 
         </div>
