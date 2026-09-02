@@ -1,0 +1,168 @@
+.category-dropdown {
+    position: relative;
+}
+
+/* =========================
+   BOTÃO
+========================= */
+
+.category-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    height: 42px;
+
+    padding: 0 16px;
+
+    border: 1px solid #eee;
+    border-radius: 22px;
+
+    background: #fafafa;
+    color: #333;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.category-dropdown-button:hover {
+    border-color: #e7a0c1;
+    background: #fff;
+}
+
+.category-dropdown-button.open {
+    border-color: #df4da0;
+    background: #fff;
+
+    box-shadow: 0 0 0 3px rgba(223, 77, 160, 0.08);
+}
+
+.category-dropdown-icon {
+    font-size: 15px;
+    color: #df4da0;
+    flex-shrink: 0;
+}
+
+.category-dropdown-chevron {
+    font-size: 15px;
+    color: #999;
+    flex-shrink: 0;
+
+    transition: transform 0.2s ease;
+}
+
+.category-dropdown-button.open .category-dropdown-chevron {
+    transform: rotate(180deg);
+    color: #df4da0;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.category-dropdown-menu {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    left: 0;
+
+    min-width: 220px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 8px;
+
+    background: white;
+
+    border: 1px solid #eee;
+    border-radius: 14px;
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+
+    z-index: 30;
+
+    animation: dropdownFadeIn 0.18s ease both;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   ITEM
+========================= */
+
+.category-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 40px;
+
+    padding: 0 12px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: transparent;
+    color: #444;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.category-dropdown-item:hover {
+    background: #fdf1f7;
+    color: #df4da0;
+}
+
+.category-dropdown-item.active {
+    background: #fff0f7;
+    color: #df4da0;
+    font-weight: 500;
+}
+
+.category-dropdown-item svg {
+    font-size: 14px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 900px) {
+    .category-dropdown-label {
+        display: none;
+    }
+
+    .category-dropdown-button {
+        padding: 0 12px;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-dropdown-menu {
+        min-width: 190px;
+    }
+}

@@ -10,171 +10,6 @@
 }
 
 /* =========================
-   PROMOÇÃO
-========================= */
-
-.product-promotion {
-    min-height: 34px;
-
-    padding: 7px 20px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    background: linear-gradient(
-        90deg,
-        #d65b9d,
-        #ed91c4
-    );
-
-    color: #111;
-
-    font-size: 13px;
-    font-weight: 500;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.product-header {
-    min-height: 82px;
-
-    display: grid;
-
-    grid-template-columns: 1fr auto 1fr;
-
-    align-items: center;
-
-    padding: 0 60px;
-
-    border-bottom: 1px solid #ddd;
-}
-
-.product-header-left {
-    display: flex;
-    gap: 30px;
-}
-
-.product-header-left a {
-    color: #777;
-    font-size: 14px;
-
-    transition: 0.2s;
-}
-
-.product-header-left a:hover {
-    color: #df4da0;
-}
-
-/* =========================
-   LOGO
-========================= */
-
-.product-logo {
-    border: none;
-    background: transparent;
-
-    font-family: 'Poppins';
-
-    font-size: 23px;
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.product-logo:hover {
-    color: #e34792;
-}
-
-/* =========================
-   DIREITA
-========================= */
-
-.product-header-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    gap: 20px;
-}
-
-.product-header-right > a,
-.product-bag-button,
-.product-favorite-header {
-    display: flex;
-    align-items: center;
-
-    gap: 7px;
-
-    color: #777;
-
-    font-size: 14px;
-}
-
-.product-header-right svg {
-    font-size: 18px;
-}
-
-/* =========================
-   BUSCA
-========================= */
-
-.product-search {
-    width: 180px;
-    height: 38px;
-
-    display: flex;
-    align-items: center;
-
-    padding: 0 13px;
-
-    background: #eee;
-
-    border-radius: 22px;
-
-    transition: 0.2s;
-}
-
-.product-search:focus-within {
-    background: #f8f8f8;
-
-    box-shadow:
-        0 0 0 1px #e34792;
-}
-
-.product-search input {
-    width: 100%;
-
-    border: none;
-    outline: none;
-
-    background: transparent;
-
-    font-size: 13px;
-}
-
-.product-bag-button,
-.product-favorite-header {
-    border: none;
-    background: transparent;
-
-    cursor: pointer;
-}
-
-.product-favorite-header:hover,
-.product-bag-button:hover {
-    color: #e34792;
-}
-
-/* =========================
    CONTEÚDO
 ========================= */
 
@@ -565,10 +400,6 @@
 
 @media (max-width: 1100px) {
 
-    .product-header {
-        padding: 0 35px;
-    }
-
     .product-content {
         padding-left: 35px;
         padding-right: 35px;
@@ -589,70 +420,10 @@
 }
 
 /* =========================
-   TABLET PEQUENO
-========================= */
-
-@media (max-width: 850px) {
-
-    .product-header {
-        grid-template-columns: 1fr auto;
-    }
-
-    .product-header-left {
-        display: none;
-    }
-
-    .product-logo {
-        justify-self: start;
-    }
-
-    .product-search {
-        width: 150px;
-    }
-}
-
-/* =========================
    CELULAR
 ========================= */
 
 @media (max-width: 600px) {
-
-    .product-promotion {
-        min-height: 32px;
-
-        padding: 6px 12px;
-
-        font-size: 10px;
-    }
-
-    .product-header {
-        min-height: 68px;
-
-        padding: 0 15px;
-
-        gap: 10px;
-    }
-
-    .product-logo {
-        font-size: 19px;
-    }
-
-    .product-header-right {
-        gap: 10px;
-    }
-
-    .product-header-right span {
-        display: none;
-    }
-
-    .product-header-right svg {
-        font-size: 19px;
-    }
-
-    .product-search {
-        width: 125px;
-        height: 34px;
-    }
 
     .product-content {
         padding: 20px 15px 50px;
@@ -735,14 +506,6 @@
 ========================= */
 
 @media (max-width: 380px) {
-
-    .product-logo {
-        font-size: 17px;
-    }
-
-    .product-search {
-        width: 105px;
-    }
 
     .product-main-image {
         height: 290px;

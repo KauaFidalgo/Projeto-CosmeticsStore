@@ -184,9 +184,7 @@ export default function Login() {
                             <button
                                 type="button"
                                 className="forgot-button"
-                                onClick={() =>
-                                    alert("Função de recuperação em breve.")
-                                }
+                                onClick={() => navigate("/recuperar-senha")}
                             >
                                 Esqueci minha senha
                             </button>

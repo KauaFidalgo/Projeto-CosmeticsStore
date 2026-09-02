@@ -20,6 +20,7 @@
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     padding: 0 5%;
 
@@ -33,13 +34,22 @@
     color: #111;
 
     font-family: 'Poppins', sans-serif;
-
     font-size: 20px;
     font-weight: 600;
-
     letter-spacing: 1.5px;
 
     cursor: pointer;
+}
+
+.secure-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #2e9e5b;
+
+    font-size: 12px;
+    font-weight: 500;
 }
 
 /* =========================
@@ -61,14 +71,15 @@
 
 .checkout-steps {
     width: 100%;
-
     min-height: 50px;
 
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
 
     margin-bottom: 35px;
+
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .checkout-step {
@@ -78,18 +89,12 @@
 
     gap: 9px;
 
-    background: #ededed;
-    color: #222;
+    background: #f2f2f2;
+    color: #999;
 
     font-size: 12px;
     font-weight: 500;
-
     letter-spacing: .4px;
-}
-
-.checkout-step.active,
-.checkout-step.completed {
-    background: #d9d9d9;
 }
 
 .checkout-step span {
@@ -102,10 +107,29 @@
 
     border-radius: 50%;
 
-    background: #111;
+    background: #c4c4c4;
     color: white;
 
     font-size: 11px;
+}
+
+.checkout-step.completed {
+    color: #444;
+}
+
+.checkout-step.completed span {
+    background: #df4da0;
+}
+
+.checkout-step.active {
+    background: #fff2f8;
+    color: #df4da0;
+
+    font-weight: 600;
+}
+
+.checkout-step.active span {
+    background: #df4da0;
 }
 
 /* =========================
@@ -115,7 +139,7 @@
 .payment-main {
     display: grid;
 
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr) 340px;
 
     gap: 45px;
 
@@ -125,10 +149,6 @@
 /* =========================
    OPÇÕES
 ========================= */
-
-.payment-options {
-    padding-top: 5px;
-}
 
 .payment-options h2 {
     margin: 0 0 25px;
@@ -140,29 +160,16 @@
 }
 
 .payment-option {
-    width: 100%;
-    min-height: 60px;
-
     margin-bottom: 15px;
 
-    display: flex;
-    align-items: center;
-
-    padding: 0 22px;
-
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
+    border-radius: 10px;
 
     background: white;
-    color: #222;
 
-    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
 
-    font-size: 14px;
-    text-align: left;
-
-    cursor: pointer;
-
-    transition: .2s;
+    transition: border-color .2s, box-shadow .2s;
 }
 
 .payment-option:hover {
@@ -170,10 +177,271 @@
 }
 
 .payment-option.selected {
-    border: 1px solid #df4da0;
+    border-color: #df4da0;
+    box-shadow: 0 4px 18px rgba(223, 77, 160, 0.10);
+}
 
-    background: #fff2f8;
+/* CABEÇALHO DA OPÇÃO */
 
+.payment-option-header {
+    width: 100%;
+    min-height: 64px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 12px 20px;
+
+    border: none;
+    background: transparent;
+
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.option-radio {
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+
+    border: 2px solid #ccc;
+    border-radius: 50%;
+
+    transition: .2s;
+}
+
+.payment-option.selected .option-radio {
+    border-color: #df4da0;
+    box-shadow: inset 0 0 0 4px #df4da0;
+}
+
+.option-icon {
+    flex-shrink: 0;
+
+    color: #df4da0;
+
+    font-size: 20px;
+}
+
+.option-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    min-width: 0;
+}
+
+.option-text strong {
+    color: #222;
+
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.option-text small {
+    color: #888;
+
+    font-size: 11px;
+}
+
+.option-badge {
+    margin-left: auto;
+
+    padding: 4px 10px;
+
+    border-radius: 12px;
+
+    background: #df4da0;
+    color: white;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+/* CORPO DA OPÇÃO */
+
+.payment-option-body {
+    padding: 5px 20px 20px;
+
+    border-top: 1px dashed #eee;
+}
+
+.payment-option-body p {
+    margin: 15px 0 0;
+
+    color: #555;
+
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+/* =========================
+   PIX
+========================= */
+
+.pix-code {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-top: 15px;
+    padding: 10px 14px;
+
+    background: #f7f7f7;
+    border-radius: 8px;
+}
+
+.pix-code > span {
+    overflow: hidden;
+
+    color: #777;
+
+    font-size: 11px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pix-code button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    flex-shrink: 0;
+
+    padding: 7px 14px;
+
+    border: none;
+    border-radius: 16px;
+
+    background: #df4da0;
+    color: white;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.pix-code button:hover {
+    background: #c92f83;
+}
+
+/* =========================
+   FORMULÁRIO DO CARTÃO
+========================= */
+
+.card-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+    margin-top: 15px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field-full {
+    grid-column: 1 / -1;
+}
+
+.field > span {
+    color: #666;
+
+    font-size: 11.5px;
+    font-weight: 500;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    height: 44px;
+
+    padding: 0 14px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: white;
+    color: #222;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+
+    outline: none;
+
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: #df4da0;
+    box-shadow: 0 0 0 3px rgba(223, 77, 160, 0.12);
+}
+
+.field input::placeholder {
+    color: #bbb;
+}
+
+.field-input {
+    position: relative;
+}
+
+.card-brand {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+
+    transform: translateY(-50%);
+
+    color: #df4da0;
+
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+/* =========================
+   VOLTAR
+========================= */
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    margin-top: 10px;
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #888;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 12.5px;
+
+    cursor: pointer;
+
+    transition: color .2s;
+}
+
+.back-link:hover {
     color: #df4da0;
 }
 
@@ -182,13 +450,15 @@
 ========================= */
 
 .payment-summary {
-    min-height: 250px;
+    position: sticky;
+    top: 25px;
 
     padding: 25px;
 
-    background: #eeeeee;
+    background: #fafafa;
 
-    border-radius: 10px;
+    border: 1px solid #eee;
+    border-radius: 12px;
 }
 
 .payment-summary h2 {
@@ -200,23 +470,22 @@
     font-weight: 600;
 }
 
-/* =========================
-   PRODUTOS
-========================= */
+/* PRODUTOS */
 
 .summary-products {
     display: flex;
     flex-direction: column;
-
     gap: 10px;
 
     margin-bottom: 15px;
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #eee;
 }
 
 .summary-product {
     display: flex;
     justify-content: space-between;
-
     gap: 10px;
 
     color: #333;
@@ -224,13 +493,17 @@
     font-size: 12px;
 }
 
+.summary-product em {
+    color: #999;
+    font-style: normal;
+}
+
 .summary-product strong {
+    font-weight: 500;
     white-space: nowrap;
 }
 
-/* =========================
-   LINHAS
-========================= */
+/* LINHAS */
 
 .summary-line {
     display: flex;
@@ -238,7 +511,7 @@
 
     padding: 9px 0;
 
-    border-bottom: 1px solid rgba(0, 0, 0, .08);
+    border-bottom: 1px solid #eee;
 
     color: #333;
 
@@ -249,17 +522,17 @@
     font-weight: 500;
 }
 
-.summary-line .pink {
+.summary-line .pink,
+.summary-total .pink {
     color: #df4da0;
 }
 
-/* =========================
-   TOTAL
-========================= */
+/* TOTAL */
 
 .summary-total {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 
     margin-top: 15px;
 
@@ -268,21 +541,48 @@
     font-size: 13px;
 }
 
-.summary-total strong {
-    font-size: 18px;
+.summary-total-value {
+    text-align: right;
 }
 
-/* =========================
-   FINALIZAR
-========================= */
+.summary-total-value strong {
+    font-size: 19px;
+}
+
+.summary-total-value small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #888;
+
+    font-size: 11px;
+}
+
+/* ERRO */
+
+.payment-error {
+    margin-top: 18px;
+    padding: 11px 14px;
+
+    border-radius: 8px;
+
+    background: #fdecec;
+    color: #c0392b;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* FINALIZAR */
 
 .finish-button {
-    width: 220px;
-    height: 45px;
+    width: 100%;
+    height: 48px;
 
     display: block;
 
-    margin: 30px auto 0;
+    margin-top: 20px;
 
     border: none;
     border-radius: 25px;
@@ -291,7 +591,143 @@
     color: white;
 
     font-family: 'Poppins', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
 
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.finish-button:hover:not(:disabled) {
+    background: #c92f83;
+    transform: translateY(-1px);
+}
+
+.finish-button:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+/* SEGURANÇA */
+
+.summary-security {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 18px;
+
+    color: #999;
+
+    font-size: 10.5px;
+    line-height: 1.4;
+}
+
+.summary-security svg {
+    flex-shrink: 0;
+
+    color: #2e9e5b;
+
+    font-size: 15px;
+}
+
+/* =========================
+   PEDIDO CONFIRMADO
+========================= */
+
+.payment-success {
+    max-width: 520px;
+
+    margin: 70px auto;
+    padding: 0 25px;
+
+    text-align: center;
+}
+
+.success-icon {
+    color: #2e9e5b;
+
+    font-size: 60px;
+}
+
+.payment-success h1 {
+    margin: 20px 0 0;
+
+    color: #111;
+
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.payment-success > p {
+    margin-top: 12px;
+
+    color: #555;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.success-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-top: 30px;
+}
+
+.success-details > div {
+    padding: 15px 10px;
+
+    background: #fafafa;
+
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+
+.success-details span {
+    display: block;
+
+    color: #999;
+
+    font-size: 11px;
+}
+
+.success-details strong {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #222;
+
+    font-size: 13px;
+}
+
+.success-note {
+    margin-top: 20px;
+
+    color: #888;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.success-button {
+    width: 100%;
+    max-width: 300px;
+    height: 46px;
+
+    margin-top: 30px;
+
+    border: none;
+    border-radius: 25px;
+
+    background: #df4da0;
+    color: white;
+
+    font-family: 'Poppins', sans-serif;
     font-size: 13px;
     font-weight: 500;
 
@@ -300,10 +736,8 @@
     transition: .2s;
 }
 
-.finish-button:hover {
+.success-button:hover {
     background: #c92f83;
-
-    transform: translateY(-1px);
 }
 
 /* =========================
@@ -322,7 +756,7 @@
     }
 
     .payment-summary {
-        width: 100%;
+        position: static;
     }
 }
 
@@ -339,6 +773,10 @@
 
     .checkout-logo {
         font-size: 18px;
+    }
+
+    .secure-badge {
+        font-size: 10px;
     }
 
     .payment-container {
@@ -367,37 +805,44 @@
         margin-bottom: 20px;
     }
 
-    .payment-option {
-        min-height: 55px;
+    .payment-option-header {
+        min-height: 58px;
 
-        padding: 0 15px;
+        gap: 12px;
 
-        font-size: 12px;
+        padding: 10px 15px;
+    }
+
+    .option-text strong {
+        font-size: 13px;
+    }
+
+    .option-badge {
+        font-size: 10px;
+    }
+
+    .payment-option-body {
+        padding: 5px 15px 18px;
+    }
+
+    .card-form {
+        gap: 12px;
+    }
+
+    .pix-code {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pix-code button {
+        justify-content: center;
     }
 
     .payment-summary {
         padding: 20px;
     }
 
-    .payment-summary h2 {
-        font-size: 16px;
-    }
-
-    .summary-product,
-    .summary-line {
-        font-size: 11px;
-    }
-
-    .summary-total {
-        font-size: 12px;
-    }
-
-    .summary-total strong {
-        font-size: 16px;
-    }
-
-    .finish-button {
-        width: 100%;
-        max-width: 300px;
+    .success-details {
+        grid-template-columns: 1fr;
     }
 }

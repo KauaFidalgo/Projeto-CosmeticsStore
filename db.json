@@ -6,7 +6,7 @@
       "nascimento": "2009-03-08",
       "telefone": "11945457710",
       "email": "kauafidalgo01@gmail.com",
-      "senha": "kauafidalgo0803",
+      "senha": "kaua123",
       "id": "8CqeBma2ku0"
     },
     {
@@ -17,6 +17,96 @@
       "email": "admin@gmail.com",
       "senha": "admin1",
       "id": "xh_8s1VL6vE"
+    }
+  ],
+  "produtos": [
+    {
+      "id": "1",
+      "nome": "Restylane Vital",
+      "categoria": "Preenchedor",
+      "preco": 331.5,
+      "precoAntigo": 390,
+      "desconto": 15,
+      "imagem": "/images/restylane.png",
+      "avaliacao": "4.8",
+      "descricao": "O Restylane Skinboosters™ Vital é um bioestimulador e hidratante injetável de ácido hialurônico. Desenvolvido pela Galderma, é indicado para rejuvenescimento da pele e melhora da elasticidade, reduzir linhas finas e restaurar o equilíbrio hídrico."
+    },
+    {
+      "id": "2",
+      "nome": "Sculptra",
+      "categoria": "Bioestimulador",
+      "preco": 999,
+      "precoAntigo": 1250,
+      "desconto": 20,
+      "imagem": "/images/restylane.png",
+      "avaliacao": "4.9",
+      "descricao": "Sculptra é um bioestimulador de colágeno à base de ácido poli-L-láctico, indicado para restaurar volume facial de forma gradual e natural, estimulando a produção de colágeno próprio ao longo dos meses."
+    },
+    {
+      "id": "3",
+      "nome": "Botox Allergan 50U",
+      "categoria": "Toxina Botulínica",
+      "preco": 749,
+      "precoAntigo": 890,
+      "desconto": 16,
+      "imagem": "/images/restylane.png",
+      "avaliacao": "4.9",
+      "descricao": "Toxina botulínica tipo A de referência mundial, utilizada para suavizar rugas de expressão e proporcionar um efeito rejuvenescedor natural, com aplicação segura por profissionais habilitados."
+    },
+    {
+      "id": "4",
+      "nome": "Rennova Catalyst",
+      "categoria": "Bioestimulador",
+      "preco": 663,
+      "precoAntigo": 780,
+      "desconto": 14,
+      "imagem": "/images/restylane.png",
+      "avaliacao": "4.7",
+      "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para melhora da firmeza e elasticidade da pele, com resultados progressivos e duradouros."
+    },
+    {
+      "id": "5",
+      "nome": "Dysport 300U",
+      "categoria": "Toxina Botulínica",
+      "preco": 807,
+      "precoAntigo": 950,
+      "desconto": 15,
+      "imagem": "/images/restylane.png",
+      "avaliacao": "4.8",
+      "descricao": "Toxina botulínica tipo A com ação rápida e difusão controlada, indicada para tratamento de rugas dinâmicas na região frontal, glabelar e periocular."
+    },
+    {
+      "id": "6",
+      "nome": "Restylane Skinboosters Vital Light",
+      "categoria": "Skinbooster",
+      "preco": 357,
+      "precoAntigo": 420,
+      "desconto": 15,
+      "imagem": "/images/restylane.png",
+      "avaliacao": "4.7",
+      "descricao": "Versão mais leve do Restylane Vital, formulada para hidratação profunda em peles finas e sensíveis, promovendo luminosidade e viço de forma sutil."
+    },
+    {
+      "id": "7",
+      "nome": "Fio de PDO Liso 19G",
+      "categoria": "Fio de PDO",
+      "preco": 178.5,
+      "precoAntigo": 210,
+      "desconto": 15,
+      "imagem": "/images/restylane.png",
+      "avaliacao": "4.6",
+      "descricao": "Fio de polidioxanona liso, utilizado para bioestimulação de colágeno e melhora da textura da pele, indicado para tratamentos de rejuvenescimento facial minimamente invasivos."
+    },
+    {
+      "id": "8",
+      "nome": "Radiesse",
+      "categoria": "Bioestimulador",
+      "preco": 841.5,
+      "precoAntigo": 990,
+      "desconto": 15,
+      "imagem": "/images/restylane.png",
+      "avaliacao": "4.8",
+      "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para preenchimento e rejuvenescimento facial, com efeito imediato e estímulo progressivo de colágeno."
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

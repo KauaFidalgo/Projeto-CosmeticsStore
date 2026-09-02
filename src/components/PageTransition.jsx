@@ -1,14 +1,37 @@
-import { useLocation } from "react-router-dom";
-import "./page-transition.css";
+import { motion } from "framer-motion";
 
-function PageTransition({ children }) {
-  const location = useLocation();
+const variants = {
+  initial: {
+    opacity: 0,
+    y: 12,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+  },
+  exit: {
+    opacity: 0,
+    y: -8,
+  },
+};
 
+export default function PageTransition({ children }) {
   return (
-    <div key={location.pathname} className="page-transition">
+    <motion.div
+      variants={variants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{
+        duration: 0.35,
+        ease: [0.4, 0, 0.2, 1],
+      }}
+      style={{
+        width: "100%",
+        minHeight: "100vh",
+      }}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }
-
-export default PageTransition;

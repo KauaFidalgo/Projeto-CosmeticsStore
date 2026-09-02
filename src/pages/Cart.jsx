@@ -3,7 +3,7 @@ import "./cart.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { FiTrash2, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiShield, FiShoppingBag, FiTrash2 } from "react-icons/fi";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -58,6 +58,10 @@ export default function Cart() {
     atualizarCarrinho(novoCarrinho);
   }
 
+  function limparSacola() {
+    atualizarCarrinho([]);
+  }
+
   const total = carrinho.reduce(
     (valor, item) => valor + item.preco * item.quantidade,
     0,
@@ -69,27 +73,31 @@ export default function Cart() {
     <div className="cart-page">
       {/* HEADER */}
 
-      <header className="cart-header">
-        <button className="cart-logo" onClick={() => navigate("/home")}>
+      <header className="checkout-header">
+        <button className="checkout-logo" onClick={() => navigate("/home")}>
           SC Medic
         </button>
+
+        <span className="secure-badge">
+          <FiShield /> Compra segura
+        </span>
       </header>
 
       <main className="cart-container">
         {/* ETAPAS */}
 
-        <div className="cart-steps">
-          <div className="cart-step active">
+        <div className="checkout-steps">
+          <div className="checkout-step active">
             <span>1</span>
-            Carrinho
+            Sacola
           </div>
 
-          <div className="cart-step">
+          <div className="checkout-step">
             <span>2</span>
             Identificação
           </div>
 
-          <div className="cart-step">
+          <div className="checkout-step">
             <span>3</span>
             Pagamento
           </div>
@@ -101,6 +109,9 @@ export default function Cart() {
                     ========================= */
 
           <section className="empty-cart">
+            <div className="empty-cart-icon">
+              <FiShoppingBag />
+            </div>
             <h1>Seu carrinho está vazio</h1>
 
             <p>
@@ -139,13 +150,27 @@ export default function Cart() {
 
           <section className="filled-cart">
             <div className="cart-warning">
-              Os produtos no carrinho não estão reservados. Finalize seu pedido
-              antes que o estoque acabe.
-              <span>X</span>
+              <span>
+                Os produtos na sacola não estão reservados. Finalize seu pedido
+                antes que o estoque acabe.
+              </span>
+              <button type="button" onClick={limparSacola}>
+                Limpar sacola
+              </button>
             </div>
 
             <div className="cart-products">
-              <div className="cart-products-title">
+              <div className="cart-section-heading">
+                <div>
+                  <span>SUA SACOLA</span>
+                  <h1>Itens selecionados</h1>
+                </div>
+                <button type="button" onClick={limparSacola}>
+                  Limpar sacola
+                </button>
+              </div>
+
+              <div className="cart-products-title" aria-hidden="true">
                 <strong>Produto</strong>
 
                 <strong>Quantidade</strong>
@@ -161,7 +186,7 @@ export default function Cart() {
                     <div>
                       <strong>{item.nome}</strong>
 
-                      <span>Quantidade: {item.quantidade}</span>
+                      <span>R$ {item.preco.toFixed(2).replace(".", ",")} por unidade</span>
                     </div>
                   </div>
 
@@ -220,7 +245,7 @@ export default function Cart() {
               </div>
 
               <div className="cart-summary">
-                <h3>Resumo</h3>
+                <h3>Resumo da compra</h3>
 
                 <div>
                   <span>Valor dos produtos</span>
@@ -242,9 +267,18 @@ export default function Cart() {
                   <strong className="pink">Grátis</strong>
                 </div>
 
+                <div className="cart-summary-total">
+                  <span>Total</span>
+                  <strong>R$ {total.toFixed(2).replace(".", ",")}</strong>
+                </div>
+
                 <button onClick={() => navigate("/identificacao")}>
-                  Continuar
+                  Continuar para identificação
                 </button>
+
+                <p className="cart-summary-security">
+                  <FiShield /> Ambiente seguro e dados protegidos.
+                </p>
               </div>
             </div>
           </section>

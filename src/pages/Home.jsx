@@ -1,124 +1,25 @@
 import "./home.css";
 
 import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-import {
-  FiSearch,
-  FiHeart,
-  FiShoppingBag,
-  FiUser,
-  FiLogOut,
-} from "react-icons/fi";
-
-import { useNavigate } from "react-router-dom";
-
-const produtos = [
-  {
-    id: 1,
-    nome: "Restylane Vital",
-    categoria: "Preenchedor",
-    genero: "feminino",
-    precoAntigo: 390,
-    preco: 331.5,
-    desconto: 15,
-    imagem: "/images/restylane.png",
-  },
-  {
-    id: 2,
-    nome: "Restylane Vital",
-    categoria: "Preenchedor",
-    genero: "feminino",
-    precoAntigo: 390,
-    preco: 331.5,
-    desconto: 15,
-    imagem: "/images/restylane.png",
-  },
-  {
-    id: 3,
-    nome: "Restylane Vital",
-    categoria: "Preenchedor",
-    genero: "feminino",
-    precoAntigo: 390,
-    preco: 331.5,
-    desconto: 15,
-    imagem: "/images/restylane.png",
-  },
-  {
-    id: 4,
-    nome: "Restylane Vital",
-    categoria: "Preenchedor",
-    genero: "feminino",
-    precoAntigo: 390,
-    preco: 331.5,
-    desconto: 15,
-    imagem: "/images/restylane.png",
-  },
-  {
-    id: 5,
-    nome: "Restylane Vital",
-    categoria: "Preenchedor",
-    genero: "masculino",
-    precoAntigo: 390,
-    preco: 331.5,
-    desconto: 15,
-    imagem: "/images/restylane.png",
-  },
-  {
-    id: 6,
-    nome: "Restylane Vital",
-    categoria: "Preenchedor",
-    genero: "masculino",
-    precoAntigo: 390,
-    preco: 331.5,
-    desconto: 15,
-    imagem: "/images/restylane.png",
-  },
-  {
-    id: 7,
-    nome: "Restylane Vital",
-    categoria: "Preenchedor",
-    genero: "masculino",
-    precoAntigo: 390,
-    preco: 331.5,
-    desconto: 15,
-    imagem: "/images/restylane.png",
-  },
-  {
-    id: 8,
-    nome: "Restylane Vital",
-    categoria: "Preenchedor",
-    genero: "masculino",
-    precoAntigo: 390,
-    preco: 331.5,
-    desconto: 15,
-    imagem: "/images/restylane.png",
-  },
-];
+import Header from "../components/Header";
+import { FiHeart } from "react-icons/fi";
 
 export default function Home() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [usuario, setUsuario] = useState(null);
-  const [busca, setBusca] = useState("");
-  const [filtro, setFiltro] = useState("todos");
+  const [busca, setBusca] = useState(searchParams.get("busca") || "");
+  const [filtro, setFiltro] = useState(
+    searchParams.get("categoria") || "todos"
+  );
   const [favoritos, setFavoritos] = useState([]);
 
+  const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+
   useEffect(() => {
-    // =========================
-    // CARREGAR USUÁRIO
-    // =========================
-
-    const usuarioSalvo = localStorage.getItem("usuarioLogado");
-
-    if (usuarioSalvo) {
-      try {
-        setUsuario(JSON.parse(usuarioSalvo));
-      } catch (error) {
-        console.error("Erro ao carregar usuário:", error);
-        localStorage.removeItem("usuarioLogado");
-      }
-    }
-
     // =========================
     // CARREGAR FAVORITOS
     // =========================
@@ -129,29 +30,46 @@ export default function Home() {
       try {
         const favoritosConvertidos = JSON.parse(favoritosSalvos);
 
-        if (Array.isArray(favoritosConvertidos)) {
-          setFavoritos(favoritosConvertidos);
-        } else {
-          setFavoritos([]);
-        }
+        setFavoritos(
+          Array.isArray(favoritosConvertidos) ? favoritosConvertidos : []
+        );
       } catch (error) {
         console.error("Erro ao carregar favoritos:", error);
         setFavoritos([]);
       }
     }
+
+    // =========================
+    // CARREGAR PRODUTOS
+    // =========================
+
+    async function carregarProdutos() {
+      try {
+        const resposta = await fetch("http://localhost:3000/produtos");
+
+        if (!resposta.ok) {
+          throw new Error("Erro ao buscar produtos.");
+        }
+
+        const dados = await resposta.json();
+        setProdutos(dados);
+      } catch (error) {
+        console.error("Erro ao carregar produtos:", error);
+      } finally {
+        setCarregando(false);
+      }
+    }
+
+    carregarProdutos();
   }, []);
 
-  // =========================
-  // SAIR DA CONTA
-  // =========================
-
-  function sair() {
-    localStorage.removeItem("usuarioLogado");
-
-    setUsuario(null);
-
-    navigate("/cadastro", { replace: true });
-  }
+  // Limpa a query (?busca=...&categoria=...) da URL depois de aplicar
+  useEffect(() => {
+    if (searchParams.toString()) {
+      setSearchParams({}, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // =========================
   // FAVORITOS
@@ -161,27 +79,21 @@ export default function Home() {
     let novosFavoritos;
 
     if (favoritos.includes(id)) {
-      novosFavoritos = favoritos.filter(
-        (favoritoId) => favoritoId !== id
-      );
+      novosFavoritos = favoritos.filter((favoritoId) => favoritoId !== id);
     } else {
       novosFavoritos = [...favoritos, id];
     }
 
     setFavoritos(novosFavoritos);
-
-    localStorage.setItem(
-      "favoritos",
-      JSON.stringify(novosFavoritos)
-    );
+    localStorage.setItem("favoritos", JSON.stringify(novosFavoritos));
   }
 
   // =========================
-  // FILTROS
+  // CATEGORIA
   // =========================
 
-  function selecionarFiltro(tipo) {
-    setFiltro(tipo);
+  function selecionarCategoria(valor) {
+    setFiltro(valor);
     setBusca("");
   }
 
@@ -192,10 +104,7 @@ export default function Home() {
   function adicionarSacola(produto) {
     try {
       const carrinhoSalvo = localStorage.getItem("carrinho");
-
-      const carrinhoAtual = carrinhoSalvo
-        ? JSON.parse(carrinhoSalvo)
-        : [];
+      const carrinhoAtual = carrinhoSalvo ? JSON.parse(carrinhoSalvo) : [];
 
       const produtoExistente = carrinhoAtual.find(
         (item) => item.id === produto.id
@@ -206,28 +115,14 @@ export default function Home() {
       if (produtoExistente) {
         novoCarrinho = carrinhoAtual.map((item) =>
           item.id === produto.id
-            ? {
-                ...item,
-                quantidade: (item.quantidade || 1) + 1,
-              }
+            ? { ...item, quantidade: (item.quantidade || 1) + 1 }
             : item
         );
       } else {
-        novoCarrinho = [
-          ...carrinhoAtual,
-          {
-            ...produto,
-            quantidade: 1,
-          },
-        ];
+        novoCarrinho = [...carrinhoAtual, { ...produto, quantidade: 1 }];
       }
 
-      localStorage.setItem(
-        "carrinho",
-        JSON.stringify(novoCarrinho)
-      );
-
-      // Vai direto para a sacola depois de adicionar
+      localStorage.setItem("carrinho", JSON.stringify(novoCarrinho));
       navigate("/carrinho");
     } catch (error) {
       console.error("Erro ao adicionar produto à sacola:", error);
@@ -239,12 +134,8 @@ export default function Home() {
   // =========================
 
   const produtosFiltrados = produtos.filter((produto) => {
-    const correspondeGenero =
-      filtro === "todos"
-        ? true
-        : filtro === "favoritos"
-        ? favoritos.includes(produto.id)
-        : produto.genero === filtro;
+    const correspondeCategoria =
+      filtro === "todos" ? true : produto.categoria === filtro;
 
     const textoBusca = busca.toLowerCase().trim();
 
@@ -254,142 +145,18 @@ export default function Home() {
         : produto.nome.toLowerCase().includes(textoBusca) ||
           produto.categoria.toLowerCase().includes(textoBusca);
 
-    return correspondeGenero && correspondeBusca;
+    return correspondeCategoria && correspondeBusca;
   });
 
   return (
     <div className="home-page">
 
-      {/* =========================
-          PROMOÇÃO
-      ========================= */}
-
-      <div className="top-promotion">
-        Frete grátis em compras acima de R$ 450
-        <span>•</span>
-        Consulta estética gratuita
-      </div>
-
-      {/* =========================
-          HEADER
-      ========================= */}
-
-      <header className="home-header">
-
-        <nav className="header-left">
-
-          <button
-            className={
-              filtro === "todos"
-                ? "header-filter active"
-                : "header-filter"
-            }
-            onClick={() => selecionarFiltro("todos")}
-          >
-            Produto
-          </button>
-
-          <button
-            className={
-              filtro === "masculino"
-                ? "header-filter active"
-                : "header-filter"
-            }
-            onClick={() => selecionarFiltro("masculino")}
-          >
-            Masculino
-          </button>
-
-          <button
-            className={
-              filtro === "feminino"
-                ? "header-filter active"
-                : "header-filter"
-            }
-            onClick={() => selecionarFiltro("feminino")}
-          >
-            Feminino
-          </button>
-
-        </nav>
-
-        {/* LOGO */}
-
-        <button
-          className="home-logo"
-          onClick={() => navigate("/home")}
-        >
-          SC Medic
-        </button>
-
-        <div className="header-right">
-
-          {/* PESQUISA */}
-
-          <div className="search">
-            <input
-              type="text"
-              value={busca}
-              onChange={(e) => setBusca(e.target.value)}
-              placeholder="Pesquisar"
-              aria-label="Pesquisar produtos"
-            />
-
-            <FiSearch />
-          </div>
-
-          {/* FAVORITOS */}
-
-          <button
-            className="header-action"
-            onClick={() => navigate("/favoritos")}
-          >
-            <FiHeart />
-            <span>Favoritos</span>
-          </button>
-
-          {/* CONTA */}
-
-          <div className="account">
-            <FiUser />
-
-            <span>
-              {usuario
-                ? usuario.nome?.split(" ")[0]
-                : "Conta"}
-            </span>
-          </div>
-
-          {/* SACOLA */}
-
-          <button
-            className="header-action"
-            onClick={() => navigate("/carrinho")}
-          >
-            <FiShoppingBag />
-            <span>Sacola</span>
-          </button>
-
-          {/* SAIR */}
-
-          {usuario && (
-            <button
-              className="logout-button"
-              onClick={sair}
-              title="Sair da conta"
-              aria-label="Sair da conta"
-            >
-              <FiLogOut />
-              <span>Sair</span>
-            </button>
-          )}
-
-        </div>
-      </header>
-
-      {/* =========================
-          RESULTADO DA PESQUISA
-      ========================= */}
+      <Header
+        busca={busca}
+        onBuscaChange={setBusca}
+        filtro={filtro}
+        onFiltroChange={selecionarCategoria}
+      />
 
       {busca && (
         <div className="search-result-text">
@@ -398,24 +165,22 @@ export default function Home() {
         </div>
       )}
 
-      {/* =========================
-          PRODUTOS
-      ========================= */}
-
       <main className="products-container">
 
-        {produtosFiltrados.length === 0 ? (
+        {carregando ? (
+
+          <div className="products-loading">
+            Carregando produtos...
+          </div>
+
+        ) : produtosFiltrados.length === 0 ? (
 
           <div className="no-products">
-
             <FiHeart />
 
             <h2>Nenhum produto encontrado</h2>
 
-            <p>
-              Tente pesquisar outro produto ou escolher outra
-              categoria.
-            </p>
+            <p>Tente pesquisar outro produto ou escolher outra categoria.</p>
 
             <button
               onClick={() => {
@@ -425,32 +190,20 @@ export default function Home() {
             >
               Ver todos os produtos
             </button>
-
           </div>
 
         ) : (
 
           <div className="products-grid">
-
             {produtosFiltrados.map((produto) => (
-
               <article
                 className="product-card"
                 key={produto.id}
-                onClick={() =>
-                  navigate(`/produto/${produto.id}`)
-                }
+                onClick={() => navigate(`/produto/${produto.id}`)}
               >
-
-                {/* EXCLUSIVO */}
-
                 {produto.id === 1 && (
-                  <span className="product-badge">
-                    Exclusivo
-                  </span>
+                  <span className="product-badge">Exclusivo</span>
                 )}
-
-                {/* FAVORITO */}
 
                 <button
                   className={
@@ -471,55 +224,35 @@ export default function Home() {
                   <FiHeart />
                 </button>
 
-                {/* IMAGEM */}
-
                 <div className="product-image">
-
-                  <img
-                    src={produto.imagem}
-                    alt={produto.nome}
-                  />
-
+                  <img src={produto.imagem} alt={produto.nome} />
                 </div>
 
-                {/* INFORMAÇÕES */}
-
                 <div className="product-info">
-
                   <div className="product-name-row">
-
                     <h3>{produto.nome}</h3>
 
                     <span className="rating">
                       ★★★★★
-                      <small>4.8</small>
+                      <small>{produto.avaliacao}</small>
                     </span>
-
                   </div>
 
-                  <div className="price">
+                  <span className="product-info-categoria">
+                    {produto.categoria}
+                  </span>
 
+                  <div className="price">
                     <span>
-                      R${" "}
-                      {produto.preco
-                        .toFixed(2)
-                        .replace(".", ",")}
+                      R$ {produto.preco.toFixed(2).replace(".", ",")}
                     </span>
 
                     <del>
-                      R${" "}
-                      {produto.precoAntigo
-                        .toFixed(2)
-                        .replace(".", ",")}
+                      R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}
                     </del>
 
                     <b>{produto.desconto}%</b>
-
                   </div>
-
-                  {/* =========================
-                      ADICIONAR NA SACOLA
-                  ========================= */}
 
                   <button
                     className="add-cart"
@@ -530,13 +263,9 @@ export default function Home() {
                   >
                     Adicionar na sacola
                   </button>
-
                 </div>
-
               </article>
-
             ))}
-
           </div>
 
         )}
