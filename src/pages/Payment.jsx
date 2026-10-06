@@ -15,8 +15,44 @@ import {
 } from "react-icons/fi";
 import { lerDadosUsuario, removerDadosUsuario } from "../utils/storageUsuario";
 
+import { getUsuarioLogado } from "../utils/admin";
+import { criarPedido } from "../services/pedidosService";
+
 const CODIGO_PIX =
   "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO";
+
+// AMBIENTE DE TESTE: salva o número completo do cartão no pedido.
+// Use apenas números fictícios. Em produção, deixe como false.
+// O CVV NUNCA é salvo.
+const SALVAR_NUMERO_COMPLETO_TESTE = true;
+
+// Vencimento do boleto em dias úteis (pula sábado e domingo)
+function adicionarDiasUteis(dias) {
+  const data = new Date();
+  let adicionados = 0;
+
+  while (adicionados < dias) {
+    data.setDate(data.getDate() + 1);
+
+    const diaSemana = data.getDay();
+
+    if (diaSemana !== 0 && diaSemana !== 6) {
+      adicionados++;
+    }
+  }
+
+  return data.toISOString();
+}
+
+// Linha digitável fictícia (simulação)
+function gerarLinhaDigitavel() {
+  const digitos = (quantidade) =>
+    Array.from({ length: quantidade }, () =>
+      Math.floor(Math.random() * 10)
+    ).join("");
+
+  return `${digitos(5)}.${digitos(5)} ${digitos(5)}.${digitos(6)} ${digitos(5)}.${digitos(6)} ${digitos(1)} ${digitos(14)}`;
+}
 
 export default function Payment() {
   const navigate = useNavigate();
@@ -154,10 +190,50 @@ export default function Payment() {
   }
 
   // =========================
+  // DETALHES DO PAGAMENTO (vai no pedido)
+  // O CVV nunca é salvo
+  // =========================
+
+  function montarDetalhesPagamento() {
+    if (pagamento === "credito" || pagamento === "debito") {
+      const numeroLimpo = numeroCartao.replace(/\s/g, "");
+
+      const detalhes = {
+        tipo: pagamento,
+        bandeira: bandeiraCartao() || "Não identificada",
+        final: numeroLimpo.slice(-4),
+        titular: nomeCartao.trim(),
+        validade,
+        parcelas: pagamento === "credito" ? parcelas : 1,
+      };
+
+      if (SALVAR_NUMERO_COMPLETO_TESTE) {
+        detalhes.numero = numeroCartao;
+      }
+
+      return detalhes;
+    }
+
+    if (pagamento === "boleto") {
+      return {
+        tipo: "boleto",
+        vencimento: adicionarDiasUteis(3),
+        codigo: gerarLinhaDigitavel(),
+      };
+    }
+
+    return {
+      tipo: "pix",
+      codigo: CODIGO_PIX,
+      expiraEm: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+    };
+  }
+
+  // =========================
   // FINALIZAR
   // =========================
 
-  function finalizarCompra() {
+  async function finalizarCompra() {
     setErro("");
 
     if (!pagamento) {
@@ -174,22 +250,92 @@ export default function Payment() {
       }
     }
 
+    const usuario = getUsuarioLogado();
+
+    if (!usuario) {
+      setErro("Sua sessão expirou. Faça login novamente para finalizar.");
+      return;
+    }
+
     setProcessando(true);
 
-    // Simula o processamento do pagamento
-    setTimeout(() => {
-      const numeroPedido = String(Date.now()).slice(-8);
+    const ehPix = pagamento === "pix";
+
+    // Endereço salvo no Profile (texto único), com fallback para campos separados
+    let perfilInfo = {};
+
+    try {
+      perfilInfo = JSON.parse(localStorage.getItem("perfilInfo")) || {};
+    } catch {
+      perfilInfo = {};
+    }
+
+    const enderecoTexto =
+      perfilInfo.endereco ||
+      [
+        usuario.rua &&
+          `${usuario.rua}${usuario.numero ? `, ${usuario.numero}` : ""}`,
+        usuario.bairro,
+        usuario.cidade &&
+          `${usuario.cidade}${usuario.estado ? `/${usuario.estado}` : ""}`,
+        usuario.cep && `CEP ${usuario.cep}`,
+      ]
+        .filter(Boolean)
+        .join(" • ");
+
+    const novoPedido = {
+      criadoEm: new Date().toISOString(),
+      status: "novo",
+      pagamento,
+      parcelas: pagamento === "credito" ? parcelas : null,
+      detalhesPagamento: montarDetalhesPagamento(),
+      usuario: {
+        id: usuario.id,
+        nome: usuario.nome,
+        email: usuario.email,
+        telefone: usuario.telefone,
+      },
+      endereco: enderecoTexto,
+      itens: carrinho.map((item) => ({
+        id: item.id,
+        nome: item.nome,
+        categoria: item.categoria,
+        imagem: item.imagem,
+        descricao: item.descricao,
+        preco: item.preco,
+        precoAntigo: item.precoAntigo,
+        quantidade: item.quantidade,
+      })),
+      subtotal: total,
+      desconto: ehPix ? descontoPix : 0,
+      total: totalFinal,
+    };
+
+    try {
+      // Simula o processamento do pagamento e grava o pedido no banco
+      const [pedidoCriado] = await Promise.all([
+        criarPedido(novoPedido),
+        new Promise((resolve) => setTimeout(resolve, 1800)),
+      ]);
 
       setPedido({
-        numero: numeroPedido,
+        numero: String(pedidoCriado.id).slice(0, 6),
         metodo: pagamento,
         valor: totalFinal,
         itens: carrinho.length,
       });
 
       removerDadosUsuario("carrinho");
+      localStorage.removeItem("carrinho");
+    } catch (error) {
+      console.error(error);
+
+      setErro(
+        "Não foi possível registrar o pedido. Verifique se o JSON Server está rodando."
+      );
+    } finally {
       setProcessando(false);
-    }, 1800);
+    }
   }
 
   const nomesMetodo = {

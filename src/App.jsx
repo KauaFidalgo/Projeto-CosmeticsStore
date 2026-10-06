@@ -13,6 +13,9 @@ import PageTransition from "./components/PageTransition";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ForgotPassword from "./pages/ForgotPassword";
+import PasswordRecovery from "./components/PasswordRecovery";
+import AdminRoute from "./components/admin/AdminRoute";
+import AdminHome from "./pages/admin/AdminHome";
 
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -126,6 +129,16 @@ function AnimatedRoutes() {
             <PageTransition>
               <Profile />
             </PageTransition>
+          }
+        />
+        
+        {/* ADMIN */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminHome />
+            </AdminRoute>
           }
         />
 

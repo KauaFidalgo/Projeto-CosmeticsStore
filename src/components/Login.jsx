@@ -1,5 +1,6 @@
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
+import { isAdmin } from "../utils/admin";
 
 import { FiMail, FiLock, FiArrowRight } from "react-icons/fi";
 
@@ -45,7 +46,8 @@ export default function Login() {
                 JSON.stringify(usuario)
             );
 
-            navigate("/home");
+            // Administrador (@scmedicadmin.com) vai para o painel
+            navigate(isAdmin(usuario) ? "/admin" : "/home");
 
         } catch (error) {
 

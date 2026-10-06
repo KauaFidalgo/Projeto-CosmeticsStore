@@ -13,6 +13,8 @@ import {
     FiArrowLeft
 } from "react-icons/fi";
 
+import { ADMIN_DOMAIN } from "../utils/admin";
+
 import logo from "../assets/logo.png";
 import clinic from "../assets/clinic.jpg";
 
@@ -33,6 +35,14 @@ export default function Register() {
         const email = form.get("email").trim().toLowerCase();
         const senha = form.get("senha");
         const confirmarSenha = form.get("confirmarSenha");
+
+        // Domínio reservado: contas admin só são criadas direto no db.json
+        if (email.endsWith(ADMIN_DOMAIN)) {
+
+            alert("Este domínio de e-mail é reservado para administradores.");
+
+            return;
+        }
 
         if (senha !== confirmarSenha) {
 
