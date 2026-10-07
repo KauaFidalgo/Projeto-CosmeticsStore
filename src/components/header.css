@@ -218,6 +218,11 @@
     font-size: 18px;
 }
 
+.header-action.active {
+    color: #e34792;
+    font-weight: 600;
+}
+
 /* =========================
    BOTÃO SAIR
 ========================= */

@@ -11,6 +11,7 @@ import {
   FiShoppingBag,
   FiUser,
   FiLogOut,
+  FiPackage,
 } from "react-icons/fi";
 
 const categoriasPadrao = [
@@ -152,6 +153,14 @@ export default function Header({
           >
             <FiHeart />
             <span>Favoritos</span>
+          </button>
+
+          <button
+            className="header-action"
+            onClick={() => navigate("/meus-pedidos")}
+          >
+            <FiPackage />
+            <span>Meus pedidos</span>
           </button>
 
           <button

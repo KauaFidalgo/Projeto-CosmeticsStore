@@ -43,7 +43,16 @@
       "telefone": "11945457710",
       "email": "admin@scmedicadmin.com",
       "senha": "admin123",
-      "id": "admin-001"
+      "id": "admin-001",
+      "endereco": {
+        "cep": "03251-060",
+        "rua": "Rua fruta do cu",
+        "numero": "69",
+        "complemento": "",
+        "bairro": "Vila Davi",
+        "cidade": "Davi",
+        "estado": "SP"
+      }
     },
     {
       "nome": "Mariana Souza",
@@ -74,7 +83,8 @@
       "desconto": 15,
       "imagem": "/images/restylane.png",
       "avaliacao": "4.8",
-      "descricao": "O Restylane Skinboosters™ Vital é um bioestimulador e hidratante injetável de ácido hialurônico. Desenvolvido pela Galderma, é indicado para rejuvenescimento da pele e melhora da elasticidade, reduzir linhas finas e restaurar o equilíbrio hídrico."
+      "descricao": "O Restylane Skinboosters™ Vital é um bioestimulador e hidratante injetável de ácido hialurônico. Desenvolvido pela Galderma, é indicado para rejuvenescimento da pele e melhora da elasticidade, reduzir linhas finas e restaurar o equilíbrio hídrico.",
+      "quantidade_estoque": 50
     },
     {
       "id": "2",
@@ -85,7 +95,9 @@
       "desconto": 20,
       "imagem": "/images/restylane.png",
       "avaliacao": "4.9",
-      "descricao": "Sculptra é um bioestimulador de colágeno à base de ácido poli-L-láctico, indicado para restaurar volume facial de forma gradual e natural, estimulando a produção de colágeno próprio ao longo dos meses."
+      "descricao": "Sculptra é um bioestimulador de colágeno à base de ácido poli-L-láctico, indicado para restaurar volume facial de forma gradual e natural, estimulando a produção de colágeno próprio ao longo dos meses.",
+      "quantidade_estoque": 18,
+      "stock_quantity": 18
     },
     {
       "id": "3",
@@ -96,7 +108,9 @@
       "desconto": 16,
       "imagem": "/images/restylane.png",
       "avaliacao": "4.9",
-      "descricao": "Toxina botulínica tipo A de referência mundial, utilizada para suavizar rugas de expressão e proporcionar um efeito rejuvenescedor natural, com aplicação segura por profissionais habilitados."
+      "descricao": "Toxina botulínica tipo A de referência mundial, utilizada para suavizar rugas de expressão e proporcionar um efeito rejuvenescedor natural, com aplicação segura por profissionais habilitados.",
+      "quantidade_estoque": 42,
+      "stock_quantity": 42
     },
     {
       "id": "4",
@@ -107,7 +121,8 @@
       "desconto": 14,
       "imagem": "/images/restylane.png",
       "avaliacao": "4.7",
-      "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para melhora da firmeza e elasticidade da pele, com resultados progressivos e duradouros."
+      "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para melhora da firmeza e elasticidade da pele, com resultados progressivos e duradouros.",
+      "quantidade_estoque": 25
     },
     {
       "id": "5",
@@ -118,7 +133,8 @@
       "desconto": 15,
       "imagem": "/images/restylane.png",
       "avaliacao": "4.8",
-      "descricao": "Toxina botulínica tipo A com ação rápida e difusão controlada, indicada para tratamento de rugas dinâmicas na região frontal, glabelar e periocular."
+      "descricao": "Toxina botulínica tipo A com ação rápida e difusão controlada, indicada para tratamento de rugas dinâmicas na região frontal, glabelar e periocular.",
+      "quantidade_estoque": 35
     },
     {
       "id": "6",
@@ -129,7 +145,8 @@
       "desconto": 15,
       "imagem": "/images/restylane.png",
       "avaliacao": "4.7",
-      "descricao": "Versão mais leve do Restylane Vital, formulada para hidratação profunda em peles finas e sensíveis, promovendo luminosidade e viço de forma sutil."
+      "descricao": "Versão mais leve do Restylane Vital, formulada para hidratação profunda em peles finas e sensíveis, promovendo luminosidade e viço de forma sutil.",
+      "quantidade_estoque": 60
     },
     {
       "id": "7",
@@ -140,7 +157,8 @@
       "desconto": 15,
       "imagem": "/images/restylane.png",
       "avaliacao": "4.6",
-      "descricao": "Fio de polidioxanona liso, utilizado para bioestimulação de colágeno e melhora da textura da pele, indicado para tratamentos de rejuvenescimento facial minimamente invasivos."
+      "descricao": "Fio de polidioxanona liso, utilizado para bioestimulação de colágeno e melhora da textura da pele, indicado para tratamentos de rejuvenescimento facial minimamente invasivos.",
+      "quantidade_estoque": 100
     },
     {
       "id": "8",
@@ -151,7 +169,42 @@
       "desconto": 15,
       "imagem": "/images/restylane.png",
       "avaliacao": "4.8",
-      "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para preenchimento e rejuvenescimento facial, com efeito imediato e estímulo progressivo de colágeno."
+      "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para preenchimento e rejuvenescimento facial, com efeito imediato e estímulo progressivo de colágeno.",
+      "quantidade_estoque": 40
+    },
+    {
+      "nome": "Juliano Cesaria",
+      "descricao": "ss",
+      "preco": 67.67,
+      "precoAntigo": 69.69,
+      "quantidade_estoque": 66,
+      "categoria": "Skinbooster",
+      "status": "Ativo",
+      "visivel": true,
+      "avaliacao": 4.5,
+      "desconto": 0,
+      "imagem": "/images/restylane.png",
+      "imagens": [
+        "/images/restylane.png"
+      ],
+      "id": "hFuU44Q6zcE"
+    },
+    {
+      "nome": "jubila",
+      "descricao": "blob",
+      "preco": 1000,
+      "precoAntigo": 10000,
+      "quantidade_estoque": 67,
+      "categoria": "Bioestimulador",
+      "status": "Ativo",
+      "visivel": true,
+      "avaliacao": 4.5,
+      "desconto": 0,
+      "imagem": "/images/restylane.png",
+      "imagens": [
+        "/images/restylane.png"
+      ],
+      "id": "QoduLlBf6mE"
     }
   ],
   "recuperacoes": [
@@ -181,95 +234,18 @@
       "usado": true,
       "tentativas": 0,
       "id": "b_Tj7S5DPL0"
+    },
+    {
+      "email": "admin@gmail.com",
+      "codigo": "130291",
+      "criadoEm": "2026-10-07T16:43:13.130Z",
+      "expiraEm": "2026-10-07T16:48:13.130Z",
+      "usado": true,
+      "tentativas": 0,
+      "id": "bfeiyYjHP00"
     }
   ],
   "pedidos": [
-    {
-      "id": "d4e5f6a7b8c9",
-      "criadoEm": "2026-10-04T15:20:00.000Z",
-      "status": "enviado",
-      "pagamento": "debito",
-      "parcelas": null,
-      "detalhesPagamento": {
-        "tipo": "debito",
-        "bandeira": "Mastercard",
-        "numero": "5555 5555 5555 4444",
-        "final": "4444",
-        "titular": "MARIANA SOUZA",
-        "validade": "11/29",
-        "parcelas": 1
-      },
-      "usuario": {
-        "id": "user-mariana",
-        "nome": "Mariana Souza",
-        "email": "mariana.souza@gmail.com",
-        "telefone": "11987654321"
-      },
-      "endereco": "Rua das Acácias, 245, Jardins, São Paulo/SP • CEP 01310-100",
-      "itens": [
-        {
-          "id": "6",
-          "nome": "Restylane Skinboosters Vital Light",
-          "categoria": "Skinbooster",
-          "imagem": "/images/restylane.png",
-          "descricao": "Versão mais leve do Restylane Vital, formulada para hidratação profunda em peles finas e sensíveis, promovendo luminosidade e viço de forma sutil.",
-          "preco": 357,
-          "precoAntigo": 420,
-          "quantidade": 1
-        }
-      ],
-      "subtotal": 357,
-      "desconto": 0,
-      "total": 357
-    },
-    {
-      "id": "a1b2c3d4e5f6",
-      "criadoEm": "2026-10-06T17:32:00.000Z",
-      "status": "novo",
-      "pagamento": "pix",
-      "parcelas": null,
-      "detalhesPagamento": {
-        "tipo": "debito",
-        "bandeira": "Mastercard",
-        "numero": "5555 5555 5555 4444",
-        "final": "4444",
-        "titular": "CLIENTE TESTE",
-        "validade": "12/30",
-        "parcelas": 1
-      },
-      "usuario": {
-        "id": "user-mariana",
-        "nome": "Mariana Souza",
-        "email": "mariana.souza@gmail.com",
-        "telefone": "11987654321"
-      },
-      "endereco": "Rua das Acácias, 245, Jardins, São Paulo/SP • CEP 01310-100",
-      "itens": [
-        {
-          "id": "2",
-          "nome": "Sculptra",
-          "categoria": "Bioestimulador",
-          "imagem": "/images/restylane.png",
-          "descricao": "Sculptra é um bioestimulador de colágeno à base de ácido poli-L-láctico, indicado para restaurar volume facial de forma gradual e natural, estimulando a produção de colágeno próprio ao longo dos meses.",
-          "preco": 999,
-          "precoAntigo": 1250,
-          "quantidade": 1
-        },
-        {
-          "id": "8",
-          "nome": "Radiesse",
-          "categoria": "Bioestimulador",
-          "imagem": "/images/restylane.png",
-          "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para preenchimento e rejuvenescimento facial, com efeito imediato e estímulo progressivo de colágeno.",
-          "preco": 841.5,
-          "precoAntigo": 990,
-          "quantidade": 1
-        }
-      ],
-      "subtotal": 1840.5,
-      "desconto": 276.08,
-      "total": 1564.42
-    },
     {
       "id": "b7c8d9e0f1a2",
       "criadoEm": "2026-10-05T13:10:00.000Z",
@@ -351,6 +327,176 @@
       "subtotal": 867,
       "desconto": 0,
       "total": 867
+    },
+    {
+      "criadoEm": "2026-10-07T13:18:09.734Z",
+      "status": "novo",
+      "pagamento": "pix",
+      "parcelas": null,
+      "detalhesPagamento": {
+        "tipo": "pix",
+        "codigo": "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO",
+        "expiraEm": "2026-10-07T13:48:09.735Z"
+      },
+      "usuario": {
+        "id": "xh_8s1VL6vE",
+        "nome": "admin",
+        "email": "admin@gmail.com",
+        "telefone": "11945457710"
+      },
+      "endereco": "",
+      "itens": [
+        {
+          "id": "hFuU44Q6zcE",
+          "nome": "Juliano Cesaria",
+          "categoria": "Skinbooster",
+          "imagem": "/images/restylane.png",
+          "descricao": "ss",
+          "preco": 67.67,
+          "precoAntigo": 69.69,
+          "quantidade": 1
+        }
+      ],
+      "subtotal": 67.67,
+      "desconto": 10.1505,
+      "total": 57.5195,
+      "id": "WD7NBceShmQ"
+    },
+    {
+      "criadoEm": "2026-10-07T13:32:53.338Z",
+      "status": "entregue",
+      "pagamento": "pix",
+      "parcelas": null,
+      "detalhesPagamento": {
+        "tipo": "pix",
+        "codigo": "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO",
+        "expiraEm": "2026-10-07T14:02:53.338Z"
+      },
+      "usuario": {
+        "id": "xh_8s1VL6vE",
+        "nome": "admin",
+        "email": "admin@gmail.com",
+        "telefone": "11945457710"
+      },
+      "endereco": "",
+      "itens": [
+        {
+          "id": "2",
+          "nome": "Sculptra",
+          "categoria": "Bioestimulador",
+          "imagem": "/images/restylane.png",
+          "descricao": "Sculptra é um bioestimulador de colágeno à base de ácido poli-L-láctico, indicado para restaurar volume facial de forma gradual e natural, estimulando a produção de colágeno próprio ao longo dos meses.",
+          "preco": 999,
+          "precoAntigo": 1250,
+          "quantidade": 2
+        }
+      ],
+      "subtotal": 1998,
+      "desconto": 299.7,
+      "total": 1698.3,
+      "id": "Ju0A4Cc5seg"
+    },
+    {
+      "criadoEm": "2026-10-07T16:04:02.042Z",
+      "status": "enviado",
+      "pagamento": "pix",
+      "parcelas": null,
+      "detalhesPagamento": {
+        "tipo": "pix",
+        "codigo": "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO",
+        "expiraEm": "2026-10-07T16:34:02.042Z"
+      },
+      "usuario": {
+        "id": "xh_8s1VL6vE",
+        "nome": "admin",
+        "email": "admin@gmail.com",
+        "telefone": "11945457710"
+      },
+      "endereco": "",
+      "itens": [
+        {
+          "id": "2",
+          "nome": "Sculptra",
+          "categoria": "Bioestimulador",
+          "imagem": "/images/restylane.png",
+          "descricao": "Sculptra é um bioestimulador de colágeno à base de ácido poli-L-láctico, indicado para restaurar volume facial de forma gradual e natural, estimulando a produção de colágeno próprio ao longo dos meses.",
+          "preco": 999,
+          "precoAntigo": 1250,
+          "quantidade": 2
+        }
+      ],
+      "subtotal": 1998,
+      "desconto": 299.7,
+      "total": 1698.3,
+      "id": "GhFd-_5EqTo"
+    },
+    {
+      "criadoEm": "2026-10-07T17:43:35.220Z",
+      "status": "novo",
+      "pagamento": "pix",
+      "parcelas": null,
+      "detalhesPagamento": {
+        "tipo": "pix",
+        "codigo": "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO",
+        "expiraEm": "2026-10-07T18:13:35.221Z"
+      },
+      "usuario": {
+        "id": "xh_8s1VL6vE",
+        "nome": "admin",
+        "email": "admin@gmail.com",
+        "telefone": "11945457710"
+      },
+      "endereco": "",
+      "itens": [
+        {
+          "id": "3",
+          "nome": "Botox Allergan 50U",
+          "categoria": "Toxina Botulínica",
+          "imagem": "/images/restylane.png",
+          "descricao": "Toxina botulínica tipo A de referência mundial, utilizada para suavizar rugas de expressão e proporcionar um efeito rejuvenescedor natural, com aplicação segura por profissionais habilitados.",
+          "preco": 749,
+          "precoAntigo": 890,
+          "quantidade": 2
+        }
+      ],
+      "subtotal": 1498,
+      "desconto": 224.7,
+      "total": 1273.3,
+      "id": "o0toEc0bkLo"
+    },
+    {
+      "criadoEm": "2026-10-07T17:55:47.121Z",
+      "status": "entregue",
+      "pagamento": "pix",
+      "parcelas": null,
+      "detalhesPagamento": {
+        "tipo": "pix",
+        "codigo": "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO",
+        "expiraEm": "2026-10-07T18:25:47.121Z"
+      },
+      "usuario": {
+        "id": "xh_8s1VL6vE",
+        "nome": "admin",
+        "email": "admin@gmail.com",
+        "telefone": "11945457710"
+      },
+      "endereco": "",
+      "itens": [
+        {
+          "id": "3",
+          "nome": "Botox Allergan 50U",
+          "categoria": "Toxina Botulínica",
+          "imagem": "/images/restylane.png",
+          "descricao": "Toxina botulínica tipo A de referência mundial, utilizada para suavizar rugas de expressão e proporcionar um efeito rejuvenescedor natural, com aplicação segura por profissionais habilitados.",
+          "preco": 749,
+          "precoAntigo": 890,
+          "quantidade": 1
+        }
+      ],
+      "subtotal": 749,
+      "desconto": 112.35,
+      "total": 636.65,
+      "id": "tCC-30_ZFXg"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

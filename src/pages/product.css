@@ -395,6 +395,35 @@
 }
 
 /* =========================
+   PAINEL DE ESTOQUE
+========================= */
+
+.stock-panel {
+    margin: 14px 0 10px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.stock-panel-ok {
+    background: #ebfaef;
+    color: #1a7f42;
+}
+
+.stock-panel-empty {
+    background: #fff0f5;
+    color: #c8225d;
+}
+
+.product-add-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =========================
    TABLET
 ========================= */
 

@@ -5,31 +5,99 @@ import { useNavigate } from "react-router-dom";
 
 import { FiShield, FiShoppingBag, FiTrash2 } from "react-icons/fi";
 import { lerDadosUsuario, salvarDadosUsuario } from "../utils/storageUsuario";
+import { obterEstoqueDisponivel } from "../utils/estoque";
 
 export default function Cart() {
   const navigate = useNavigate();
 
   const [carrinho, setCarrinho] = useState([]);
+  const [estoqueAtual, setEstoqueAtual] = useState({});
 
   const [cep, setCep] = useState("");
+
+  async function sincronizarEstoque() {
+    try {
+      const resposta = await fetch("http://localhost:3000/produtos");
+
+      if (!resposta.ok) {
+        return;
+      }
+
+      const produtos = await resposta.json();
+      const estoqueMapeado = Object.fromEntries(
+        produtos.map((produto) => [
+          String(produto.id),
+          Number(produto.stock_quantity ?? produto.quantidade_estoque ?? 0),
+        ]),
+      );
+
+      setEstoqueAtual(estoqueMapeado);
+
+      setCarrinho((carrinhoAtual) =>
+        carrinhoAtual
+          .map((item) => {
+            const estoqueDisponivel = Number(
+              estoqueMapeado[String(item.id)] ?? item.quantidade,
+            );
+
+            if (estoqueDisponivel <= 0) {
+              return null;
+            }
+
+            return {
+              ...item,
+              quantidade: Math.min(item.quantidade, estoqueDisponivel),
+            };
+          })
+          .filter(Boolean),
+      );
+    } catch (error) {
+      console.error("Erro ao sincronizar estoque do carrinho:", error);
+    }
+  }
 
   useEffect(() => {
     const produtos = lerDadosUsuario("carrinho");
     setCarrinho(produtos);
+    sincronizarEstoque();
+
+    const intervalo = setInterval(() => {
+      sincronizarEstoque();
+    }, 15000);
+
+    return () => clearInterval(intervalo);
   }, []);
 
   function atualizarCarrinho(novoCarrinho) {
     setCarrinho(novoCarrinho);
-
     salvarDadosUsuario("carrinho", novoCarrinho);
   }
 
-  function aumentarQuantidade(id) {
+  function obterEstoqueDisponivelDoItem(itemId) {
+    return Number(estoqueAtual[String(itemId)] ?? 0);
+  }
+
+  async function aumentarQuantidade(id) {
+    const itemAtual = carrinho.find((item) => item.id === id);
+    if (!itemAtual) return;
+
+    const estoqueDisponivel = obterEstoqueDisponivelDoItem(id);
+    const proximaQuantidade = itemAtual.quantidade + 1;
+
+    if (estoqueDisponivel > 0 && proximaQuantidade > estoqueDisponivel) {
+      alert(
+        `Quantidade indisponível. Apenas ${estoqueDisponivel} unidade${
+          estoqueDisponivel > 1 ? "s" : ""
+        } restante${estoqueDisponivel > 1 ? "s" : ""}.`,
+      );
+      return;
+    }
+
     const novoCarrinho = carrinho.map((item) =>
       item.id === id
         ? {
             ...item,
-            quantidade: item.quantidade + 1,
+            quantidade: proximaQuantidade,
           }
         : item,
     );
@@ -60,6 +128,23 @@ export default function Cart() {
 
   function limparSacola() {
     atualizarCarrinho([]);
+  }
+
+  function validarCarrinhoAntesDeProsseguir() {
+    const itensSemEstoque = carrinho.filter((item) => {
+      const estoqueDisponivel = obterEstoqueDisponivelDoItem(item.id);
+      return estoqueDisponivel <= 0 || item.quantidade > estoqueDisponivel;
+    });
+
+    if (itensSemEstoque.length > 0) {
+      const nomeProduto = itensSemEstoque[0]?.nome || "algum produto";
+      alert(
+        `Não foi possível continuar: "${nomeProduto}" não possui estoque suficiente no momento. Ajuste a quantidade ou remova o item.`,
+      );
+      return false;
+    }
+
+    return true;
   }
 
   const total = carrinho.reduce(
@@ -178,52 +263,73 @@ export default function Cart() {
                 <strong>Valor total</strong>
               </div>
 
-              {carrinho.map((item) => (
-                <div className="cart-product" key={item.id}>
-                  <div className="cart-product-info">
-                    <img src={item.imagem} alt={item.nome} />
+              {carrinho.map((item) => {
+                const estoqueDisponivel = obterEstoqueDisponivelDoItem(item.id);
+                const excedeuEstoque = estoqueDisponivel > 0 && item.quantidade > estoqueDisponivel;
 
-                    <div>
-                      <strong>{item.nome}</strong>
+                return (
+                  <div className="cart-product" key={item.id}>
+                    <div className="cart-product-info">
+                      <img src={item.imagem} alt={item.nome} />
 
-                      <span>R$ {item.preco.toFixed(2).replace(".", ",")} por unidade</span>
+                      <div>
+                        <strong>{item.nome}</strong>
+
+                        <span>
+                          R$ {item.preco.toFixed(2).replace(".", ",")} por unidade
+                        </span>
+
+                        {estoqueDisponivel <= 0 ? (
+                          <small style={{ color: "#d64679", display: "block" }}>
+                            Produto indisponível no momento
+                          </small>
+                        ) : excedeuEstoque ? (
+                          <small style={{ color: "#d64679", display: "block" }}>
+                            Apenas {estoqueDisponivel} unidade{estoqueDisponivel > 1 ? "s" : ""} disponível{estoqueDisponivel > 1 ? "is" : ""}
+                          </small>
+                        ) : (
+                          <small style={{ color: "#3aaf7f", display: "block" }}>
+                            {estoqueDisponivel} unidades disponíveis
+                          </small>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="quantity-control">
-                    <button onClick={() => diminuirQuantidade(item.id)}>
-                      -
+                    <div className="quantity-control">
+                      <button onClick={() => diminuirQuantidade(item.id)}>
+                        -
+                      </button>
+
+                      <span>{item.quantidade}</span>
+
+                      <button onClick={() => aumentarQuantidade(item.id)}>
+                        +
+                      </button>
+                    </div>
+
+                    <div className="cart-product-total">
+                      <strong>
+                        R${" "}
+                        {(item.preco * item.quantidade)
+                          .toFixed(2)
+                          .replace(".", ",")}
+                      </strong>
+
+                      <small>
+                        R$ {item.precoAntigo.toFixed(2).replace(".", ",")} no
+                        Cartão
+                      </small>
+                    </div>
+
+                    <button
+                      className="delete-product"
+                      onClick={() => removerProduto(item.id)}
+                    >
+                      <FiTrash2 />
                     </button>
-
-                    <span>{item.quantidade}</span>
-
-                    <button onClick={() => aumentarQuantidade(item.id)}>
-                      +
-                    </button>
                   </div>
-
-                  <div className="cart-product-total">
-                    <strong>
-                      R${" "}
-                      {(item.preco * item.quantidade)
-                        .toFixed(2)
-                        .replace(".", ",")}
-                    </strong>
-
-                    <small>
-                      R$ {item.precoAntigo.toFixed(2).replace(".", ",")} no
-                      Cartão
-                    </small>
-                  </div>
-
-                  <button
-                    className="delete-product"
-                    onClick={() => removerProduto(item.id)}
-                  >
-                    <FiTrash2 />
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* PARTE INFERIOR */}
@@ -272,7 +378,13 @@ export default function Cart() {
                   <strong>R$ {total.toFixed(2).replace(".", ",")}</strong>
                 </div>
 
-                <button onClick={() => navigate("/identificacao")}>
+                <button
+                  onClick={() => {
+                    if (validarCarrinhoAntesDeProsseguir()) {
+                      navigate("/identificacao");
+                    }
+                  }}
+                >
                   Continuar para identificação
                 </button>
 

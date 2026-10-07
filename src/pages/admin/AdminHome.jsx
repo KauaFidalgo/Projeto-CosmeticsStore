@@ -11,11 +11,13 @@ import {
   FiTrendingUp,
   FiUser,
   FiCalendar,
+  FiPlus,
 } from "react-icons/fi";
 
 import PedidoCard from "../../components/admin/PedidoCard";
 import PedidoModal from "../../components/admin/PedidoModal";
 import PerfilModal from "../../components/admin/PerfilModal";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
 import {
   STATUS_PEDIDO,
@@ -26,6 +28,7 @@ import {
 import {
   atualizarStatusPedido,
   listarPedidos,
+  deletarPedido,
 } from "../../services/pedidosService";
 
 export default function AdminHome() {
@@ -42,6 +45,8 @@ export default function AdminHome() {
 
   const [pedidoAberto, setPedidoAberto] = useState(null);
   const [perfilAberto, setPerfilAberto] = useState(false);
+  const [pedidoParaDeletar, setPedidoParaDeletar] = useState(null);
+  const [deletando, setDeletando] = useState(false);
 
   const carregarPedidos = useCallback(async (silencioso = false) => {
     if (!silencioso) setCarregando(true);
@@ -82,6 +87,30 @@ export default function AdminHome() {
     } catch (error) {
       console.error(error);
       alert("Não foi possível atualizar o status.");
+    }
+  }
+
+  async function confirmarDelecao() {
+    if (!pedidoParaDeletar) return;
+
+    setDeletando(true);
+
+    try {
+      await deletarPedido(pedidoParaDeletar.id);
+
+      setPedidos((atuais) =>
+        atuais.filter((p) => p.id !== pedidoParaDeletar.id),
+      );
+
+      setPedidoAberto(null);
+      setPedidoParaDeletar(null);
+
+      alert("Pedido deletado com sucesso!");
+    } catch (error) {
+      console.error(error);
+      alert("Não foi possível deletar o pedido. Tente novamente.");
+    } finally {
+      setDeletando(false);
     }
   }
 
@@ -134,6 +163,11 @@ export default function AdminHome() {
         </div>
 
         <div className="admin-header-actions">
+          <button className="admin-action" onClick={() => navigate("/admin/financeiro")}>
+            <FiTrendingUp />
+            <span>Financeiro</span>
+          </button>
+
           <button className="admin-action" onClick={() => setPerfilAberto(true)}>
             <FiUser />
             <span>{usuario?.nome?.split(" ")[0] || "Perfil"}</span>
@@ -151,6 +185,13 @@ export default function AdminHome() {
           <span className="admin-eyebrow">PAINEL ADMINISTRATIVO</span>
           <h1>Pedidos realizados</h1>
           <p>Acompanhe todas as compras feitas na loja em tempo real.</p>
+          <button
+            className="btn-novo-produto"
+            onClick={() => navigate("/admin/cadastro-produto")}
+            title="Cadastrar novo produto"
+          >
+            <FiPlus /> Novo Produto
+          </button>
         </div>
 
         {/* ESTATÍSTICAS */}
@@ -253,6 +294,7 @@ export default function AdminHome() {
                 key={pedido.id}
                 pedido={pedido}
                 onAbrir={setPedidoAberto}
+                onDeletar={setPedidoParaDeletar}
               />
             ))}
           </section>
@@ -269,6 +311,21 @@ export default function AdminHome() {
 
       {perfilAberto && usuario && (
         <PerfilModal usuario={usuario} onFechar={() => setPerfilAberto(false)} />
+      )}
+
+      {pedidoParaDeletar && (
+        <ConfirmDialog
+          titulo="Deletar pedido"
+          mensagem={`Tem certeza que deseja excluir permanentemente o pedido #${String(
+            pedidoParaDeletar.id
+          ).slice(0, 6)}?`}
+          textoBotaoConfirmar="Deletar"
+          textoBotaoCancelar="Cancelar"
+          ehDangeroso={true}
+          carregando={deletando}
+          onConfirmar={confirmarDelecao}
+          onCancelar={() => setPedidoParaDeletar(null)}
+        />
       )}
     </div>
   );

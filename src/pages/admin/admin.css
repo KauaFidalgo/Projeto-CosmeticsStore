@@ -108,6 +108,38 @@
     font-size: 15px;
 }
 
+.btn-novo-produto {
+    margin-top: 20px;
+    padding: 12px 20px;
+    
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    
+    background: linear-gradient(135deg, #e34792 0%, #d43a7d 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(227, 71, 146, 0.25);
+}
+
+.btn-novo-produto:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(227, 71, 146, 0.35);
+}
+
+.btn-novo-produto:active {
+    transform: translateY(0);
+}
+
+.btn-novo-produto svg {
+    font-size: 18px;
+}
+
 /* ESTATÍSTICAS */
 
 .admin-stats {
@@ -429,6 +461,31 @@
     gap: 6px;
     color: #999;
     font-size: 12px;
+}
+
+.pedido-card-bottom-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pedido-btn-deletar {
+    background: none;
+    border: none;
+    padding: 6px 10px;
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.pedido-btn-deletar:hover {
+    background-color: #fee;
+    color: #e34792;
 }
 
 .pedido-card-bottom strong {

@@ -19,6 +19,30 @@ import {
   linkWhatsApp,
 } from "../../utils/admin";
 
+function obterStatusEstoqueItem(item) {
+  const estoque = Number(item?.estoqueRestanteAtual ?? item?.estoqueAtual ?? 0);
+  const quantidade = Number(item?.quantidade ?? 0);
+
+  if (estoque <= 0) {
+    return {
+      tipo: "empty",
+      texto: "Esgotado / 0 un.",
+    };
+  }
+
+  if (estoque < quantidade) {
+    return {
+      tipo: "low",
+      texto: `Baixo - ${estoque} un. restantes`,
+    };
+  }
+
+  return {
+    tipo: "ok",
+    texto: `Em estoque - ${estoque} un.`,
+  };
+}
+
 export default function PedidoModal({ pedido, onFechar, onStatus }) {
   const [copiado, setCopiado] = useState("");
 
@@ -76,36 +100,43 @@ export default function PedidoModal({ pedido, onFechar, onStatus }) {
           {formatarHora(pedido.criadoEm)}
         </p>
 
-        {/* PRODUTOS */}
-
         <div className="modal-section">
           <h3>Produtos</h3>
 
-          {pedido.itens?.map((item) => (
-            <div className="modal-item" key={item.id}>
-              <div className="modal-item-image">
-                <img src={item.imagem} alt={item.nome} />
-              </div>
+          {pedido.itens?.map((item) => {
+            const estoqueInfo = obterStatusEstoqueItem(item);
 
-              <div className="modal-item-info">
-                <strong>{item.nome}</strong>
-                <span className="modal-tag">{item.categoria}</span>
+            return (
+              <div className="modal-item" key={`${item.id}-${item.nome}`}>
+                <div className="modal-item-image">
+                  <img src={item.imagem} alt={item.nome} />
+                </div>
 
-                {item.descricao && <p>{item.descricao}</p>}
+                <div className="modal-item-info">
+                  <strong>{item.nome}</strong>
+                  <span className="modal-tag">{item.categoria}</span>
 
-                <div className="modal-item-price">
-                  <span>
-                    {item.quantidade}x {formatarMoeda(item.preco)}
-                  </span>
+                  {item.descricao && <p>{item.descricao}</p>}
 
-                  <strong>{formatarMoeda(item.preco * item.quantidade)}</strong>
+                  <div className="modal-item-price">
+                    <span>
+                      {item.quantidade}x {formatarMoeda(item.preco)}
+                    </span>
+
+                    <strong>{formatarMoeda(item.preco * item.quantidade)}</strong>
+                  </div>
+
+                  <div className={`modal-stock-panel stock-${estoqueInfo.tipo}`} title={`Estoque atual: ${item.estoqueRestanteAtual ?? item.estoqueAtual ?? 0} un. | Reservados neste pedido: ${item.quantidadeReservadaNoPedido ?? item.quantidade ?? 0}`}>
+                    <small>{estoqueInfo.texto}</small>
+                    <small>
+                      Reservado neste pedido: {item.quantidadeReservadaNoPedido ?? item.quantidade ?? 0} un.
+                    </small>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-
-        {/* CLIENTE */}
 
         <div className="modal-section">
           <h3>Cliente</h3>
@@ -143,8 +174,6 @@ export default function PedidoModal({ pedido, onFechar, onStatus }) {
           {endereco && <p className="modal-address">{endereco}</p>}
         </div>
 
-        {/* PAGAMENTO */}
-
         <div className="modal-section">
           <h3>Detalhes do pagamento</h3>
 
@@ -163,8 +192,6 @@ export default function PedidoModal({ pedido, onFechar, onStatus }) {
                 <span className="pay-brand">{detalhes.bandeira}</span>
               )}
             </div>
-
-            {/* CARTÃO */}
 
             {ehCartao && detalhes && (
               <>
@@ -219,8 +246,6 @@ export default function PedidoModal({ pedido, onFechar, onStatus }) {
                 </p>
               </>
             )}
-
-            {/* BOLETO */}
 
             {pedido.pagamento === "boleto" && detalhes && (
               <div className="boleto-box">
@@ -299,43 +324,23 @@ export default function PedidoModal({ pedido, onFechar, onStatus }) {
           </div>
         </div>
 
-        {/* TOTAIS */}
+        <div className="modal-section">
+          <h3>Status do pedido</h3>
 
-        <div className="modal-totals">
-          <div>
-            <span>Subtotal</span>
-            <strong>{formatarMoeda(pedido.subtotal)}</strong>
+          <div className="modal-status">
+            <label htmlFor="status-pedido-admin">Atualizar status manualmente</label>
+            <select
+              id="status-pedido-admin"
+              value={pedido.status || "novo"}
+              onChange={(event) => onStatus?.(pedido.id, event.target.value)}
+            >
+              {STATUS_PEDIDO.map((status) => (
+                <option key={status.valor} value={status.valor}>
+                  {status.label}
+                </option>
+              ))}
+            </select>
           </div>
-
-          {pedido.desconto > 0 && (
-            <div>
-              <span>Desconto Pix</span>
-              <strong className="pink">- {formatarMoeda(pedido.desconto)}</strong>
-            </div>
-          )}
-
-          <div className="modal-total-final">
-            <span>Total</span>
-            <strong>{formatarMoeda(pedido.total)}</strong>
-          </div>
-        </div>
-
-        {/* STATUS */}
-
-        <div className="modal-status">
-          <label htmlFor="status">Status do pedido</label>
-
-          <select
-            id="status"
-            value={pedido.status}
-            onChange={(e) => onStatus(pedido.id, e.target.value)}
-          >
-            {STATUS_PEDIDO.map((s) => (
-              <option key={s.valor} value={s.valor}>
-                {s.label}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
     </div>

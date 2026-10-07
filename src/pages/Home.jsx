@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import { FiHeart } from "react-icons/fi";
 import { lerDadosUsuario, salvarDadosUsuario } from "../utils/storageUsuario";
+import { obterStatusEstoque } from "../utils/estoque";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -21,16 +22,8 @@ export default function Home() {
   const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    // =========================
-    // CARREGAR FAVORITOS
-    // =========================
-
     const favoritosSalvos = lerDadosUsuario("favoritos");
     setFavoritos(favoritosSalvos);
-
-    // =========================
-    // CARREGAR PRODUTOS
-    // =========================
 
     async function carregarProdutos() {
       try {
@@ -50,19 +43,20 @@ export default function Home() {
     }
 
     carregarProdutos();
+
+    const intervalo = setInterval(() => {
+      carregarProdutos();
+    }, 15000);
+
+    return () => clearInterval(intervalo);
   }, []);
 
-  // Limpa a query (?busca=...&categoria=...) da URL depois de aplicar
   useEffect(() => {
     if (searchParams.toString()) {
       setSearchParams({}, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // =========================
-  // FAVORITOS
-  // =========================
 
   function alternarFavorito(id) {
     let novosFavoritos;
@@ -77,33 +71,43 @@ export default function Home() {
     salvarDadosUsuario("favoritos", novosFavoritos);
   }
 
-  // =========================
-  // CATEGORIA
-  // =========================
-
   function selecionarCategoria(valor) {
     setFiltro(valor);
     setBusca("");
   }
 
-  // =========================
-  // ADICIONAR NA SACOLA
-  // =========================
-
   function adicionarSacola(produto) {
     try {
       const carrinhoAtual = lerDadosUsuario("carrinho");
+      const estoqueDisponivel = Number(
+        produto.stock_quantity ?? produto.quantidade_estoque ?? 0
+      );
+
+      if (estoqueDisponivel <= 0) {
+        alert("Produto indisponível no momento. O estoque foi zerado.");
+        return;
+      }
 
       const produtoExistente = carrinhoAtual.find(
         (item) => item.id === produto.id
       );
+      const novaQuantidade = (produtoExistente?.quantidade || 0) + 1;
+
+      if (novaQuantidade > estoqueDisponivel) {
+        alert(
+          `Quantidade indisponível. Apenas ${estoqueDisponivel} unidade${
+            estoqueDisponivel > 1 ? "s" : ""
+          } restante${estoqueDisponivel > 1 ? "s" : ""}.`
+        );
+        return;
+      }
 
       let novoCarrinho;
 
       if (produtoExistente) {
         novoCarrinho = carrinhoAtual.map((item) =>
           item.id === produto.id
-            ? { ...item, quantidade: (item.quantidade || 1) + 1 }
+            ? { ...item, quantidade: novaQuantidade }
             : item
         );
       } else {
@@ -114,12 +118,9 @@ export default function Home() {
       navigate("/carrinho");
     } catch (error) {
       console.error("Erro ao adicionar produto à sacola:", error);
+      alert("Não foi possível adicionar o produto ao carrinho. Tente novamente.");
     }
   }
-
-  // =========================
-  // PRODUTOS FILTRADOS
-  // =========================
 
   const produtosFiltrados = produtos.filter((produto) => {
     const correspondeCategoria =
@@ -174,77 +175,99 @@ export default function Home() {
           </div>
         ) : (
           <div className="products-grid">
-            {produtosFiltrados.map((produto) => (
-              <article
-                className="product-card"
-                key={produto.id}
-                onClick={() => navigate(`/produto/${produto.id}`)}
-              >
-                {produto.id === 1 && (
-                  <span className="product-badge">Exclusivo</span>
-                )}
+            {produtosFiltrados.map((produto) => {
+              const estoqueInfo = obterStatusEstoque(produto);
+              const semEstoque = estoqueInfo.estoqueDisponivel <= 0;
 
-                <button
-                  className={
-                    favoritos.includes(produto.id)
-                      ? "favorite-button favorite-active"
-                      : "favorite-button"
-                  }
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    alternarFavorito(produto.id);
-                  }}
-                  aria-label={
-                    favoritos.includes(produto.id)
-                      ? "Remover dos favoritos"
-                      : "Adicionar aos favoritos"
-                  }
+              return (
+                <article
+                  className={`product-card ${
+                    semEstoque ? "product-card-empty" : ""
+                  }`}
+                  key={produto.id}
+                  onClick={() => navigate(`/produto/${produto.id}`)}
                 >
-                  <FiHeart />
-                </button>
-
-                <div className="product-image">
-                  <img src={produto.imagem} alt={produto.nome} />
-                </div>
-
-                <div className="product-info">
-                  <div className="product-name-row">
-                    <h3>{produto.nome}</h3>
-
-                    <span className="rating">
-                      ★★★★★
-                      <small>{produto.avaliacao}</small>
-                    </span>
-                  </div>
-
-                  <span className="product-info-categoria">
-                    {produto.categoria}
-                  </span>
-
-                  <div className="price">
-                    <span>
-                      R$ {produto.preco.toFixed(2).replace(".", ",")}
-                    </span>
-
-                    <del>
-                      R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}
-                    </del>
-
-                    <b>{produto.desconto}%</b>
-                  </div>
+                  {produto.id === 1 && (
+                    <span className="product-badge">Exclusivo</span>
+                  )}
 
                   <button
-                    className="add-cart"
+                    className={
+                      favoritos.includes(produto.id)
+                        ? "favorite-button favorite-active"
+                        : "favorite-button"
+                    }
                     onClick={(e) => {
                       e.stopPropagation();
-                      adicionarSacola(produto);
+                      alternarFavorito(produto.id);
                     }}
+                    aria-label={
+                      favoritos.includes(produto.id)
+                        ? "Remover dos favoritos"
+                        : "Adicionar aos favoritos"
+                    }
                   >
-                    Adicionar na sacola
+                    <FiHeart />
                   </button>
-                </div>
-              </article>
-            ))}
+
+                  <div className="product-image">
+                    <img src={produto.imagem} alt={produto.nome} />
+                  </div>
+
+                  <div className="product-info">
+                    <div className="product-name-row">
+                      <h3>{produto.nome}</h3>
+
+                      <span className="rating">
+                        ★★★★★
+                        <small>{produto.avaliacao}</small>
+                      </span>
+                    </div>
+
+                    <span className="product-info-categoria">
+                      {produto.categoria}
+                    </span>
+
+                    <div className="price">
+                      <span>
+                        R$ {produto.preco.toFixed(2).replace(".", ",")}
+                      </span>
+
+                      <del>
+                        R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}
+                      </del>
+
+                      <b>{produto.desconto}%</b>
+                    </div>
+
+                    <div
+                      className={`stock-chip ${
+                        semEstoque
+                          ? "stock-empty"
+                          : estoqueInfo.tipo === "low"
+                          ? "stock-low"
+                          : "stock-ok"
+                      }`}
+                      title={estoqueInfo.tooltip}
+                    >
+                      {estoqueInfo.chip}
+                    </div>
+
+                    <button
+                      className="add-cart"
+                      disabled={semEstoque}
+                      title={estoqueInfo.tooltip}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        adicionarSacola(produto);
+                      }}
+                    >
+                      {semEstoque ? "Produto indisponível" : estoqueInfo.botao}
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
       </main>

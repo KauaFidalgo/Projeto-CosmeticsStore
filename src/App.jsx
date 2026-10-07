@@ -16,6 +16,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import PasswordRecovery from "./components/PasswordRecovery";
 import AdminRoute from "./components/admin/AdminRoute";
 import AdminHome from "./pages/admin/AdminHome";
+import CadastroProduto from "./pages/admin/CadastroProduto";
+import AdminFinance from "./pages/admin/AdminFinance";
 
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -24,6 +26,7 @@ import Favoritos from "./pages/Favoritos";
 import Identification from "./pages/Identification";
 import Payment from "./pages/Payment";
 import Profile from "./pages/Profile";
+import MeusPedidos from "./pages/MeusPedidos";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -131,6 +134,16 @@ function AnimatedRoutes() {
             </PageTransition>
           }
         />
+
+        {/* MEUS PEDIDOS */}
+        <Route
+          path="/meus-pedidos"
+          element={
+            <PageTransition>
+              <MeusPedidos />
+            </PageTransition>
+          }
+        />
         
         {/* ADMIN */}
         <Route
@@ -138,6 +151,26 @@ function AnimatedRoutes() {
           element={
             <AdminRoute>
               <AdminHome />
+            </AdminRoute>
+          }
+        />
+
+        {/* ADMIN FINANCEIRO */}
+        <Route
+          path="/admin/financeiro"
+          element={
+            <AdminRoute>
+              <AdminFinance />
+            </AdminRoute>
+          }
+        />
+
+        {/* CADASTRO PRODUTO */}
+        <Route
+          path="/admin/cadastro-produto"
+          element={
+            <AdminRoute>
+              <CadastroProduto />
             </AdminRoute>
           }
         />

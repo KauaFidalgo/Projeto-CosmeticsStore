@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { FiHeart } from "react-icons/fi";
 import { lerDadosUsuario, salvarDadosUsuario } from "../utils/storageUsuario";
+import { validarEstoque } from "../services/pedidosService";
+import { obterStatusEstoque } from "../utils/estoque";
 
 export default function Product() {
   const navigate = useNavigate();
@@ -21,9 +23,7 @@ export default function Product() {
   useEffect(() => {
     async function carregarProduto() {
       try {
-        const resposta = await fetch(
-          `http://localhost:3000/produtos/${id}`
-        );
+        const resposta = await fetch(`http://localhost:3000/produtos/${id}`);
 
         if (!resposta.ok) {
           setProduto(null);
@@ -110,21 +110,36 @@ export default function Product() {
   }
 
   const imagens = [produto.imagem, produto.imagem, produto.imagem];
+  const estoqueInfo = obterStatusEstoque(produto);
+  const estoqueDisponivel = estoqueInfo.estoqueDisponivel;
+  const semEstoque = estoqueDisponivel <= 0;
 
-  function adicionarSacola() {
+  async function adicionarSacola() {
     try {
       const carrinhoAtual = lerDadosUsuario("carrinho");
+      const produtoExistente = carrinhoAtual.find((item) => item.id === produto.id);
+      const quantidadeNoCarrinho = produtoExistente?.quantidade || 0;
+      const novaQuantidade = quantidadeNoCarrinho + 1;
 
-      const produtoExistente = carrinhoAtual.find(
-        (item) => item.id === produto.id
-      );
+      const temEstoque = await validarEstoque(produto.id, novaQuantidade);
+
+      if (!temEstoque || semEstoque) {
+        alert(
+          semEstoque
+            ? "Produto indisponível no momento. O estoque foi zerado."
+            : `Quantidade indisponível. Restam ${estoqueDisponivel} unidade${
+                estoqueDisponivel > 1 ? "s" : ""
+              }.`
+        );
+        return;
+      }
 
       let novoCarrinho;
 
       if (produtoExistente) {
         novoCarrinho = carrinhoAtual.map((item) =>
           item.id === produto.id
-            ? { ...item, quantidade: (item.quantidade || 1) + 1 }
+            ? { ...item, quantidade: novaQuantidade }
             : item
         );
       } else {
@@ -135,6 +150,7 @@ export default function Product() {
       navigate("/carrinho");
     } catch (error) {
       console.error("Erro ao adicionar à sacola:", error);
+      alert("Não foi possível adicionar o produto ao carrinho. Tente novamente.");
     }
   }
 
@@ -145,9 +161,7 @@ export default function Product() {
       let novosFavoritos;
 
       if (favoritos.includes(produto.id)) {
-        novosFavoritos = favoritos.filter(
-          (favoritoId) => favoritoId !== produto.id
-        );
+        novosFavoritos = favoritos.filter((favoritoId) => favoritoId !== produto.id);
         setFavoritado(false);
       } else {
         novosFavoritos = [...favoritos, produto.id];
@@ -164,7 +178,7 @@ export default function Product() {
     e.preventDefault();
 
     if (!cep) {
-      alert("Digite seu CEP.");
+      alert("Digite seu CEP para consultar o frete.");
       return;
     }
 
@@ -173,28 +187,18 @@ export default function Product() {
 
   return (
     <div className="product-page">
-
       <Header />
 
       <main className="product-content">
-
-        <div className="product-breadcrumb">
-          Página inicial / Produto / {produto.nome}
-        </div>
+        <div className="product-breadcrumb">Página inicial / Produto / {produto.nome}</div>
 
         <div className="product-main">
-
           <div className="product-gallery">
-
             <div className="product-thumbnails">
               {imagens.map((imagem, index) => (
                 <button
                   key={index}
-                  className={
-                    imagemSelecionada === index
-                      ? "thumbnail active"
-                      : "thumbnail"
-                  }
+                  className={imagemSelecionada === index ? "thumbnail active" : "thumbnail"}
                   onClick={() => setImagemSelecionada(index)}
                 >
                   <img src={imagem} alt={produto.nome} />
@@ -205,11 +209,9 @@ export default function Product() {
             <div className="product-main-image">
               <img src={imagens[imagemSelecionada]} alt={produto.nome} />
             </div>
-
           </div>
 
           <section className="product-details">
-
             <h1>{produto.nome}</h1>
 
             <span className="product-age">{produto.categoria}</span>
@@ -220,20 +222,26 @@ export default function Product() {
             </div>
 
             <div className="product-price">
-              <strong>
-                R$ {produto.preco.toFixed(2).replace(".", ",")}
-              </strong>
-
-              <del>
-                R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}
-              </del>
-
+              <strong>R$ {produto.preco.toFixed(2).replace(".", ",")}</strong>
+              <del>R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}</del>
               <b>{produto.desconto}%</b>
             </div>
 
+            <div
+              className={`stock-panel ${
+                semEstoque
+                  ? "stock-panel-empty"
+                  : estoqueInfo.tipo === "low"
+                  ? "stock-panel-low"
+                  : "stock-panel-ok"
+              }`}
+              title={estoqueInfo.detalhe}
+            >
+              {estoqueInfo.label}
+            </div>
+
             <p className="installments">
-              ou em 3x no cartão de R${" "}
-              {(produto.preco / 3).toFixed(2).replace(".", ",")} sem juros
+              ou em 3x no cartão de R$ {(produto.preco / 3).toFixed(2).replace(".", ",")} sem juros
             </p>
 
             <div className="product-description">
@@ -242,18 +250,13 @@ export default function Product() {
               <button>Mais detalhes</button>
             </div>
 
-            <button
-              className="product-add-button"
-              onClick={adicionarSacola}
-            >
-              Adicionar na sacola
+            <button className="product-add-button" onClick={adicionarSacola} disabled={semEstoque}>
+              {semEstoque ? "Produto indisponível" : "Adicionar na sacola"}
             </button>
 
             <button
               className={
-                favoritado
-                  ? "product-favorite-button product-favorited"
-                  : "product-favorite-button"
+                favoritado ? "product-favorite-button product-favorited" : "product-favorite-button"
               }
               onClick={alternarFavorito}
             >
@@ -261,39 +264,29 @@ export default function Product() {
               <FiHeart />
             </button>
 
-            <form
-              className="shipping-calculator"
-              onSubmit={calcularFrete}
-            >
+            <form className="shipping-calculator" onSubmit={calcularFrete}>
               <div className="shipping-title">
                 <span>Calcular frete</span>
 
-                <button
-                  type="button"
-                  onClick={() => alert("Digite seu CEP para consultar.")}
-                >
+                <button type="button" onClick={() => alert("Digite seu CEP para consultar.")}>
                   Frete Grátis? Simule
                 </button>
               </div>
 
-              <div className="shipping-input">
+              <div className="shipping-inputs">
                 <input
+                  type="text"
+                  placeholder="Digite seu CEP"
                   value={cep}
                   onChange={(e) => setCep(e.target.value)}
-                  placeholder="00000-000"
-                  maxLength="9"
                 />
 
                 <button type="submit">Calcular</button>
               </div>
             </form>
-
           </section>
-
         </div>
-
       </main>
-
     </div>
   );
 }

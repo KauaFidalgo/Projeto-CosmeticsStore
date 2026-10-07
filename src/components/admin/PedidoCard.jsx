@@ -6,6 +6,7 @@ import {
   FiPackage,
   FiUser,
   FiZap,
+  FiTrash2,
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -16,6 +17,8 @@ import {
   formatarMoeda,
   formatarTelefone,
   linkWhatsApp,
+  getUsuarioLogado,
+  isAdmin,
 } from "../../utils/admin";
 
 function resumoPagamento(pedido) {
@@ -59,7 +62,7 @@ function resumoPagamento(pedido) {
     return "Pagamento não informado";
 }
 
-export default function PedidoCard({ pedido, onAbrir }) {
+export default function PedidoCard({ pedido, onAbrir, onDeletar }) {
   const status = STATUS_PEDIDO?.find(
     (s) => s.valor === pedido?.status
   );
@@ -82,6 +85,9 @@ export default function PedidoCard({ pedido, onAbrir }) {
       : pedido?.pagamento === "boleto"
       ? FiFileText
       : FiZap;
+
+  const usuarioLogado = getUsuarioLogado();
+  const podeDeleta = isAdmin(usuarioLogado);
 
   return (
     <article
@@ -203,9 +209,25 @@ export default function PedidoCard({ pedido, onAbrir }) {
           {String(pedido?.id || "").slice(0, 6)}
         </span>
 
-        <strong>
-          {formatarMoeda(pedido?.total || 0)}
-        </strong>
+        <div className="pedido-card-bottom-right">
+          {podeDeleta && (
+            <button
+              className="pedido-btn-deletar"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDeletar?.(pedido);
+              }}
+              title="Excluir pedido"
+              aria-label="Excluir pedido"
+            >
+              <FiTrash2 />
+            </button>
+          )}
+
+          <strong>
+            {formatarMoeda(pedido?.total || 0)}
+          </strong>
+        </div>
       </div>
     </article>
   );

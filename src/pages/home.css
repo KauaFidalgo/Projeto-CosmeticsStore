@@ -228,6 +228,32 @@
     transform: translateY(-1px);
 }
 
+.stock-chip {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 6px 10px;
+}
+
+.stock-chip.stock-ok {
+    background: #eafaf3;
+    color: #1b8d4a;
+}
+
+.stock-chip.stock-empty {
+    background: #fff0f4;
+    color: #d3336f;
+}
+
+.add-cart:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* =========================
    RESULTADO PESQUISA
 ========================= */
