@@ -1,4 +1,9 @@
 export const ADMIN_DOMAIN = "@scmedicadmin.com";
+export const ADMIN_EMAILS = new Set([
+  "admin@scmedicadmin.com",
+  "admin@gmail.com",
+  "admin@scmedic.com",
+]);
 
 export const STATUS_PEDIDO = [
   { valor: "novo", label: "Novo" },
@@ -23,8 +28,18 @@ export function getUsuarioLogado() {
 }
 
 export function isAdmin(usuario) {
+  if (!usuario || typeof usuario !== "object") return false;
+
+  const email = String(usuario.email || "").trim().toLowerCase();
+  const role = String(usuario.role || usuario.perfil || "").trim().toUpperCase();
+
   return Boolean(
-    usuario?.email && usuario.email.toLowerCase().endsWith(ADMIN_DOMAIN),
+    usuario?.isAdmin === true ||
+    usuario?.admin === true ||
+    usuario?.id === "admin-001" ||
+    role === "ADMIN" ||
+    email.endsWith(ADMIN_DOMAIN) ||
+    ADMIN_EMAILS.has(email),
   );
 }
 

@@ -185,6 +185,255 @@ function buildMonthlySeries(ano, pedidos) {
   }));
 }
 
+function getPaymentStatusMeta(statusValue = "") {
+  const value = String(statusValue || "").trim().toUpperCase();
+
+  if (["PAGO", "APROVADO", "FATURADO", "CONCLUIDO", "ENTREGUE"].includes(value)) {
+    return { label: "Pago", tone: "paid" };
+  }
+
+  if (["PENDENTE", "PENDENTE_PAGAMENTO", "EM_ANALISE"].includes(value)) {
+    return { label: "Em análise", tone: "warning" };
+  }
+
+  if (["CANCELADO", "RECUSADO"].includes(value)) {
+    return { label: "Cancelado", tone: "danger" };
+  }
+
+  return { label: "Processando", tone: "neutral" };
+}
+
+function normalizeFinancialOrder(pedido = {}) {
+  const itens = Array.isArray(pedido.itens) ? pedido.itens : [];
+  const produtos = itens.map((item) => String(item?.nome || "Produto")).filter(Boolean);
+  const categorias = itens.map((item) => String(item?.categoria || "Geral")).filter(Boolean);
+  const total = asNumber(pedido.total ?? pedido.subtotal ?? 0, 0);
+  const statusPagamento = String(
+    pedido.statusPagamento || pedido.pagamentoStatus || pedido.status || "PAGO",
+  ).trim();
+
+  return {
+    id: String(pedido.id || `finance-${Date.now()}`),
+    orderId: `#SC-${String(pedido.id || "0001").slice(-4).toUpperCase()}`,
+    clientName: String(pedido.usuario?.nome || "Cliente não informado").trim() || "Cliente não informado",
+    productNames: produtos.length ? produtos.join(", ") : "Produto médico",
+    products: itens.map((item) => ({
+      id: String(item?.id || ""),
+      name: String(item?.nome || "Produto"),
+      category: String(item?.categoria || "Geral"),
+      quantity: asNumber(item?.quantidade ?? 1, 1),
+      price: asNumber(item?.preco ?? 0, 0),
+    })),
+    categoryNames: categorias.length ? [...new Set(categorias)] : ["Geral"],
+    amount: Number(total.toFixed(2)),
+    createdAt: pedido.criadoEm || new Date().toISOString(),
+    paymentStatus: statusPagamento,
+    paymentBadge: getPaymentStatusMeta(statusPagamento),
+    status: String(pedido.status || "PAGO").trim(),
+  };
+}
+
+function getDateRangeFromPeriod(period, customStart, customEnd) {
+  const now = new Date();
+  const start = new Date(now);
+  const end = new Date(now);
+
+  if (period === "today") {
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  }
+
+  if (period === "7d") {
+    start.setDate(now.getDate() - 6);
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  }
+
+  if (period === "month") {
+    start.setDate(1);
+    start.setHours(0, 0, 0, 0);
+    end.setMonth(now.getMonth() + 1, 0);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  }
+
+  if (period === "year") {
+    start.setMonth(0, 1);
+    start.setHours(0, 0, 0, 0);
+    end.setMonth(11, 31);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  }
+
+  if (period === "custom") {
+    if (customStart) {
+      const parsedStart = new Date(customStart);
+      if (!Number.isNaN(parsedStart.getTime())) start.setTime(parsedStart.getTime());
+    }
+
+    if (customEnd) {
+      const parsedEnd = new Date(customEnd);
+      if (!Number.isNaN(parsedEnd.getTime())) {
+        end.setTime(parsedEnd.getTime());
+        end.setHours(23, 59, 59, 999);
+      }
+    }
+
+    return { start, end };
+  }
+
+  start.setMonth(0, 1);
+  start.setHours(0, 0, 0, 0);
+  end.setMonth(11, 31);
+  end.setHours(23, 59, 59, 999);
+  return { start, end };
+}
+
+function aggregateByCategory(orders) {
+  const map = new Map();
+
+  for (const order of orders) {
+    for (const item of order.products || []) {
+      const key = String(item.category || "Geral").trim() || "Geral";
+      const current = map.get(key) || { name: key, value: 0, sales: 0, totalTicket: 0 };
+      current.value += Number(item.price || 0) * Number(item.quantity || 1);
+      current.sales += Number(item.quantity || 1);
+      current.totalTicket += Number(item.price || 0);
+      map.set(key, current);
+    }
+  }
+
+  const totalValue = Array.from(map.values()).reduce((sum, item) => sum + Number(item.value || 0), 0);
+
+  return Array.from(map.values())
+    .map((item) => ({
+      name: item.name,
+      value: Number((Number(item.value) || 0).toFixed(2)),
+      percentage: totalValue > 0 ? Number((((Number(item.value) || 0) / totalValue) * 100).toFixed(1)) : 0,
+      avgTicket: item.sales > 0 ? Number(((Number(item.value) || 0) / Number(item.sales || 1)).toFixed(2)) : 0,
+      sales: Number(item.sales || 0),
+    }))
+    .sort((a, b) => b.value - a.value);
+}
+
+function buildTrendSeries(orders, period) {
+  const now = new Date();
+  const days = period === "today" ? 1 : 7;
+
+  if (period === "today" || period === "7d" || period === "custom") {
+    const buckets = new Map();
+    const lookback = Math.max(1, period === "today" ? 1 : 7);
+
+    for (let offset = lookback - 1; offset >= 0; offset -= 1) {
+      const date = new Date(now);
+      date.setHours(0, 0, 0, 0);
+      date.setDate(date.getDate() - offset);
+      const label = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit" }).format(date);
+      buckets.set(label, { label, revenue: 0, orders: 0 });
+    }
+
+    for (const order of orders) {
+      const date = new Date(order.createdAt);
+      if (Number.isNaN(date.getTime())) continue;
+      const label = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit" }).format(date);
+      const bucket = buckets.get(label);
+      if (!bucket) continue;
+      bucket.revenue += Number(order.amount || 0);
+      bucket.orders += 1;
+    }
+
+    return Array.from(buckets.values()).map((bucket) => ({
+      label: bucket.label,
+      revenue: Number(bucket.revenue.toFixed(2)),
+      orders: Number(bucket.orders),
+    }));
+  }
+
+  const buckets = new Map();
+  const lookback = period === "month" ? 6 : 12;
+
+  for (let offset = lookback - 1; offset >= 0; offset -= 1) {
+    const date = new Date(now.getFullYear(), now.getMonth() - offset, 1);
+    const label = new Intl.DateTimeFormat("pt-BR", { month: "short" }).format(date);
+    buckets.set(label, { label, revenue: 0, orders: 0 });
+  }
+
+  for (const order of orders) {
+    const date = new Date(order.createdAt);
+    if (Number.isNaN(date.getTime())) continue;
+    const label = new Intl.DateTimeFormat("pt-BR", { month: "short" }).format(date);
+    const bucket = buckets.get(label);
+    if (!bucket) continue;
+    bucket.revenue += Number(order.amount || 0);
+    bucket.orders += 1;
+  }
+
+  return Array.from(buckets.values()).map((bucket) => ({
+    label: bucket.label,
+    revenue: Number(bucket.revenue.toFixed(2)),
+    orders: Number(bucket.orders),
+  }));
+}
+
+function buildFinancialPayload(db, filters = {}) {
+  const pedidos = Array.isArray(db.pedidos) ? db.pedidos : [];
+  const allOrders = pedidos
+    .filter(isPedidoPago)
+    .map((pedido) => normalizeFinancialOrder(pedido))
+    .filter((pedido) => {
+      const createdAt = new Date(pedido.createdAt);
+      if (Number.isNaN(createdAt.getTime())) return false;
+
+      const { start, end } = getDateRangeFromPeriod(
+        filters.period || "month",
+        filters.startDate || "",
+        filters.endDate || "",
+      );
+
+      const withinRange = createdAt >= start && createdAt <= end;
+      if (!withinRange) return false;
+
+      const query = String(filters.search || "").trim().toLowerCase();
+      if (query) {
+        const haystack = `${pedido.clientName} ${pedido.productNames}`.toLowerCase();
+        if (!haystack.includes(query)) return false;
+      }
+
+      return true;
+    });
+
+  const totalRevenue = allOrders.reduce((sum, order) => sum + Number(order.amount || 0), 0);
+  const totalOrders = allOrders.length;
+  const averageTicket = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+  const categoryBreakdown = aggregateByCategory(allOrders);
+  const timeline = buildTrendSeries(allOrders, filters.period || "month");
+  const sorted = [...allOrders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const page = Number(filters.page || 1);
+  const pageSize = Number(filters.pageSize || 10);
+  const startIndex = (page - 1) * pageSize;
+  const paginated = sorted.slice(startIndex, startIndex + pageSize);
+
+  return {
+    summary: {
+      totalRevenue: Number(totalRevenue.toFixed(2)),
+      totalOrders,
+      averageTicket: Number(averageTicket.toFixed(2)),
+      period: filters.period || "month",
+    },
+    charts: {
+      categoryBreakdown,
+      timeline,
+    },
+    page,
+    pageSize,
+    total: sorted.length,
+    totalPages: Math.max(1, Math.ceil(sorted.length / Math.max(pageSize, 1))),
+    data: paginated,
+  };
+}
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
 
@@ -433,6 +682,29 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === "GET" && url.pathname === "/api/admin/financial/orders") {
+      if (!isAdminRequest(req)) {
+        res.writeHead(403, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Acesso negado. Perfil ADMIN é obrigatório." }));
+        return;
+      }
+
+      const pedidos = Array.isArray(db.pedidos) ? db.pedidos : [];
+      const filters = {
+        period: url.searchParams.get("period") || "month",
+        search: url.searchParams.get("search") || "",
+        startDate: url.searchParams.get("startDate") || "",
+        endDate: url.searchParams.get("endDate") || "",
+        page: Number(url.searchParams.get("page") || 1),
+        pageSize: Number(url.searchParams.get("pageSize") || 10),
+      };
+
+      const payload = buildFinancialPayload(db, filters);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(payload));
+      return;
+    }
+
     if (req.method === "POST" && url.pathname === "/pedidos") {
       const body = await parseBody(req);
       const requesterId = getUserIdFromAuth(req);
@@ -592,10 +864,28 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-if (import.meta.url === pathToFileURL(process.argv[1] || "").href) {
-  server.listen(PORT, () => {
-    console.log(`JSON Server custom rodando em http://localhost:${PORT}`);
-  });
-}
+// Start server
+const PORT_NUM = PORT || 3000;
 
-export { buildFinanceSummary, isPedidoPago, normalizeProductPayload, normalizeItemPedido, buildMonthlySeries };
+const serverInstance = server.listen(PORT_NUM, "127.0.0.1", () => {
+  console.log(`JSON Server custom rodando em http://localhost:${PORT_NUM}`);
+  console.log("Server is listening and ready for requests");
+});
+
+serverInstance.on("error", (err) => {
+  console.error("Server error:", err.message);
+  console.error("Error code:", err.code);
+  process.exit(1);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
+  process.exit(1);
+});
+
+export { buildFinanceSummary, isPedidoPago, normalizeProductPayload, normalizeItemPedido, buildMonthlySeries, buildFinancialPayload };

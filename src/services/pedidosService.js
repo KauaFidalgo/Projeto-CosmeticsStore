@@ -2,9 +2,11 @@ const API_URL = "http://localhost:3000";
 
 function getAuthHeaders(extra = {}) {
   const usuario = JSON.parse(localStorage.getItem("usuarioLogado") || "null");
-  const role = usuario?.email?.toLowerCase().endsWith("@scmedicadmin.com")
-    ? "ADMIN"
-    : "USER";
+  const isAdminUser =
+    usuario?.email?.toLowerCase().endsWith("@scmedicadmin.com") ||
+    usuario?.email?.toLowerCase() === "admin@gmail.com" ||
+    usuario?.id === "admin-001";
+  const role = isAdminUser ? "ADMIN" : "USER";
 
   return {
     "Content-Type": "application/json",
@@ -53,6 +55,31 @@ export async function listarHistoricoUsuario(userId) {
   return (await response.json()).sort(
     (a, b) => new Date(b.criadoEm) - new Date(a.criadoEm),
   );
+}
+
+export async function buscarFinanceiroAdmin(params = {}) {
+  const query = new URLSearchParams();
+
+  if (params.period) query.set("period", String(params.period));
+  if (params.search) query.set("search", String(params.search));
+  if (params.startDate) query.set("startDate", String(params.startDate));
+  if (params.endDate) query.set("endDate", String(params.endDate));
+  if (params.page) query.set("page", String(params.page));
+  if (params.pageSize) query.set("pageSize", String(params.pageSize));
+
+  const response = await fetch(
+    `${API_URL}/api/admin/financial/orders?${query.toString()}`,
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  if (!response.ok) {
+    const payload = await response.json().catch(() => ({}));
+    throw new Error(payload.error || "Erro ao buscar financeiro administrativo.");
+  }
+
+  return response.json();
 }
 
 export async function buscarFaturamento(params = {}) {

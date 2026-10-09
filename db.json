@@ -84,7 +84,8 @@
       "imagem": "/images/restylane.png",
       "avaliacao": "4.8",
       "descricao": "O Restylane Skinboosters™ Vital é um bioestimulador e hidratante injetável de ácido hialurônico. Desenvolvido pela Galderma, é indicado para rejuvenescimento da pele e melhora da elasticidade, reduzir linhas finas e restaurar o equilíbrio hídrico.",
-      "quantidade_estoque": 50
+      "quantidade_estoque": 50,
+      "stock_quantity": 50
     },
     {
       "id": "2",
@@ -122,7 +123,8 @@
       "imagem": "/images/restylane.png",
       "avaliacao": "4.7",
       "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para melhora da firmeza e elasticidade da pele, com resultados progressivos e duradouros.",
-      "quantidade_estoque": 25
+      "quantidade_estoque": 25,
+      "stock_quantity": 25
     },
     {
       "id": "5",
@@ -134,7 +136,8 @@
       "imagem": "/images/restylane.png",
       "avaliacao": "4.8",
       "descricao": "Toxina botulínica tipo A com ação rápida e difusão controlada, indicada para tratamento de rugas dinâmicas na região frontal, glabelar e periocular.",
-      "quantidade_estoque": 35
+      "quantidade_estoque": 35,
+      "stock_quantity": 35
     },
     {
       "id": "6",
@@ -146,7 +149,8 @@
       "imagem": "/images/restylane.png",
       "avaliacao": "4.7",
       "descricao": "Versão mais leve do Restylane Vital, formulada para hidratação profunda em peles finas e sensíveis, promovendo luminosidade e viço de forma sutil.",
-      "quantidade_estoque": 60
+      "quantidade_estoque": 60,
+      "stock_quantity": 60
     },
     {
       "id": "7",
@@ -158,7 +162,8 @@
       "imagem": "/images/restylane.png",
       "avaliacao": "4.6",
       "descricao": "Fio de polidioxanona liso, utilizado para bioestimulação de colágeno e melhora da textura da pele, indicado para tratamentos de rejuvenescimento facial minimamente invasivos.",
-      "quantidade_estoque": 100
+      "quantidade_estoque": 100,
+      "stock_quantity": 100
     },
     {
       "id": "8",
@@ -170,7 +175,8 @@
       "imagem": "/images/restylane.png",
       "avaliacao": "4.8",
       "descricao": "Bioestimulador de colágeno à base de hidroxiapatita de cálcio, indicado para preenchimento e rejuvenescimento facial, com efeito imediato e estímulo progressivo de colágeno.",
-      "quantidade_estoque": 40
+      "quantidade_estoque": 40,
+      "stock_quantity": 40
     },
     {
       "nome": "Juliano Cesaria",
@@ -250,6 +256,7 @@
       "id": "b7c8d9e0f1a2",
       "criadoEm": "2026-10-05T13:10:00.000Z",
       "status": "separacao",
+      "statusPagamento": "PAGO",
       "pagamento": "credito",
       "parcelas": 3,
       "detalhesPagamento": {
@@ -285,120 +292,9 @@
       "total": 1498
     },
     {
-      "id": "c3d4e5f6a7b8",
-      "criadoEm": "2026-10-03T19:45:00.000Z",
-      "status": "entregue",
-      "pagamento": "boleto",
-      "parcelas": null,
-      "detalhesPagamento": {
-        "tipo": "boleto",
-        "vencimento": "2026-10-08T15:00:00.000Z",
-        "codigo": "23793.38128 60000.123456 78901.234567 8 98760000086700"
-      },
-      "usuario": {
-        "id": "8CqeBma2ku0",
-        "nome": "kaua",
-        "email": "kauafidalgo01@gmail.com",
-        "telefone": "11945457710"
-      },
-      "endereco": "",
-      "itens": [
-        {
-          "id": "1",
-          "nome": "Restylane Vital",
-          "categoria": "Preenchedor",
-          "imagem": "/images/restylane.png",
-          "descricao": "O Restylane Skinboosters™ Vital é um bioestimulador e hidratante injetável de ácido hialurônico. Desenvolvido pela Galderma, é indicado para rejuvenescimento da pele e melhora da elasticidade, reduzir linhas finas e restaurar o equilíbrio hídrico.",
-          "preco": 331.5,
-          "precoAntigo": 390,
-          "quantidade": 1
-        },
-        {
-          "id": "7",
-          "nome": "Fio de PDO Liso 19G",
-          "categoria": "Fio de PDO",
-          "imagem": "/images/restylane.png",
-          "descricao": "Fio de polidioxanona liso, utilizado para bioestimulação de colágeno e melhora da textura da pele, indicado para tratamentos de rejuvenescimento facial minimamente invasivos.",
-          "preco": 178.5,
-          "precoAntigo": 210,
-          "quantidade": 3
-        }
-      ],
-      "subtotal": 867,
-      "desconto": 0,
-      "total": 867
-    },
-    {
-      "criadoEm": "2026-10-07T13:18:09.734Z",
-      "status": "novo",
-      "pagamento": "pix",
-      "parcelas": null,
-      "detalhesPagamento": {
-        "tipo": "pix",
-        "codigo": "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO",
-        "expiraEm": "2026-10-07T13:48:09.735Z"
-      },
-      "usuario": {
-        "id": "xh_8s1VL6vE",
-        "nome": "admin",
-        "email": "admin@gmail.com",
-        "telefone": "11945457710"
-      },
-      "endereco": "",
-      "itens": [
-        {
-          "id": "hFuU44Q6zcE",
-          "nome": "Juliano Cesaria",
-          "categoria": "Skinbooster",
-          "imagem": "/images/restylane.png",
-          "descricao": "ss",
-          "preco": 67.67,
-          "precoAntigo": 69.69,
-          "quantidade": 1
-        }
-      ],
-      "subtotal": 67.67,
-      "desconto": 10.1505,
-      "total": 57.5195,
-      "id": "WD7NBceShmQ"
-    },
-    {
-      "criadoEm": "2026-10-07T13:32:53.338Z",
-      "status": "entregue",
-      "pagamento": "pix",
-      "parcelas": null,
-      "detalhesPagamento": {
-        "tipo": "pix",
-        "codigo": "00020126580014BR.GOV.BCB.PIX0136scmedic-pagamentos5204000053039865802BR5908SC MEDIC6009SAO PAULO",
-        "expiraEm": "2026-10-07T14:02:53.338Z"
-      },
-      "usuario": {
-        "id": "xh_8s1VL6vE",
-        "nome": "admin",
-        "email": "admin@gmail.com",
-        "telefone": "11945457710"
-      },
-      "endereco": "",
-      "itens": [
-        {
-          "id": "2",
-          "nome": "Sculptra",
-          "categoria": "Bioestimulador",
-          "imagem": "/images/restylane.png",
-          "descricao": "Sculptra é um bioestimulador de colágeno à base de ácido poli-L-láctico, indicado para restaurar volume facial de forma gradual e natural, estimulando a produção de colágeno próprio ao longo dos meses.",
-          "preco": 999,
-          "precoAntigo": 1250,
-          "quantidade": 2
-        }
-      ],
-      "subtotal": 1998,
-      "desconto": 299.7,
-      "total": 1698.3,
-      "id": "Ju0A4Cc5seg"
-    },
-    {
       "criadoEm": "2026-10-07T16:04:02.042Z",
       "status": "enviado",
+      "statusPagamento": "PAGO",
       "pagamento": "pix",
       "parcelas": null,
       "detalhesPagamento": {
@@ -433,6 +329,7 @@
     {
       "criadoEm": "2026-10-07T17:43:35.220Z",
       "status": "novo",
+      "statusPagamento": "PENDENTE",
       "pagamento": "pix",
       "parcelas": null,
       "detalhesPagamento": {
@@ -467,6 +364,7 @@
     {
       "criadoEm": "2026-10-07T17:55:47.121Z",
       "status": "entregue",
+      "statusPagamento": "CONCLUIDO",
       "pagamento": "pix",
       "parcelas": null,
       "detalhesPagamento": {
